@@ -1,0 +1,12 @@
+.dashboard {
+  margin: auto;
+  position: relative;
+  
+  
+}
+
+@media only screen and (min-width: 768px) {
+  .dashboard {
+    margin-left: 10em;
+  }
+}

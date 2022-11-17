@@ -1,0 +1,67 @@
+.top-menu {
+  margin: 1em;
+}
+
+.top-menu-cards  {
+  display: grid;
+  grid-template-columns: auto auto;
+  
+  
+  
+}
+
+.top-menu-card {
+  margin: 10px 4px 0 4px;
+  padding: 5px 54px 5px 54px;
+  min-width: 143px;
+  border-radius: 7px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+p {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1em;
+  color: #ffff;
+  
+}
+
+.topm1 {
+  background-color: #D34480;
+}
+
+.topm2 {
+  background-color: #26D478;
+}
+
+.topm3 {
+  background-color: #FA4F28;
+}
+
+.topm4 {
+  background-color: #A1CD49;
+}
+
+.tmh3 {
+  margin-left: 25px;
+}
+
+@media only screen and (min-width: 768px) {
+    
+
+    .top-menu-cards  {
+      display: flex;
+      justify-content: center;
+       
+    }
+
+    .top-menu-card {
+      padding-right: 30px;
+      padding-left: 30px;
+      
+    }
+
+}
+
+
+

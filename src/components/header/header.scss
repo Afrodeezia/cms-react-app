@@ -1,0 +1,33 @@
+.headermenu {
+  display: flex;
+  justify-content: space-between;
+  border: 3px solid #FFFF;
+  background-color: #ffff;
+  padding: 0 5px 0 5px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+
+  h1 {
+    background-color: transparent;
+    
+  }
+  
+  .openOverlay-container {
+    background-color: transparent;
+    border: none;
+  }
+  
+  
+  
+
+}
+
+@media only screen and (min-width: 768px) { // tablet 
+    h1 {
+      margin-left: 5em;
+    }
+}
+
+@media only screen and (min-width: 992px) { //laptops/desktops 
+    
+}
+

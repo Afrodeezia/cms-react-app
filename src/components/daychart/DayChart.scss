@@ -1,0 +1,22 @@
+.chart {
+  margin: 3em auto;
+  width: 85%;
+  
+}
+
+canvas {
+  background-color: #ffff;
+  border-radius: 7px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+h2 {
+  text-align: center;
+}
+
+@media only screen and (min-width: 768px) {
+    .chart {
+     
+      width: 90%;
+    }
+}

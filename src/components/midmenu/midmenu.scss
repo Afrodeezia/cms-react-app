@@ -1,0 +1,48 @@
+
+
+.midmenu {
+  margin: 1em 2em 1em 2em;
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 6px;
+}
+
+
+.midcard {
+  display: block;
+  color: #818181;
+  text-decoration: none;
+  padding: 10px;
+  background-color: #FFFF;
+  border-radius: 7px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+
+}
+
+.toggle-modal {
+  display: block;
+  font-size: 16px;
+  text-align: left;
+  padding: 10px;
+  color: #818181;
+  background-color: #FFFF;
+  border-radius: 7px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+.toggle-modal:hover {
+  opacity: 0.7;
+}
+
+.midcard:hover {
+  opacity: 0.7;
+}
+
+@media only screen and (min-width: 768px) {
+  .midmenu {
+    
+    margin-top: 1.5em;
+  }
+}

@@ -1,0 +1,81 @@
+.menuToggle-container, .menuToggle, .hamb{
+  background: transparent;
+}
+
+.menuToggle {
+  position: relative;
+  z-index: 300;
+}
+
+.check {
+  position: absolute;
+  cursor: pointer;
+  opacity: 0;
+  width: 1.8em;
+  height: 1.8em;
+  top: 2em;
+  right: 1.3em;
+  z-index: 200;
+}
+
+.hamb {
+  cursor: pointer;
+  float: right;
+  padding: 40px 20px;
+  
+  
+}
+
+.hamb-line {
+  background: black;
+  display: block;
+  height: 2px;
+  position: relative;
+  width: 24px;
+}
+
+.hamb-line::before,
+.hamb-line::after {
+  background: black;
+  content: '';
+  display: block;
+  height: 100%;
+  position: absolute;
+  transition: all .2s ease-out;
+  width: 100%;
+}
+
+.hamb-line::before {
+  top: 5px;
+}
+
+.hamb-line::after {
+  top: -5px;
+}
+
+
+
+
+.check:checked ~ .hamb .hamb-line {
+  background: transparent;
+}
+ 
+.check:checked ~ .hamb .hamb-line::before {
+  transform: rotate(-45deg);
+  top: 0;
+}
+
+.check:checked ~ .hamb .hamb-line::after {
+  transform: rotate(45deg);
+  top: 0;
+}
+
+@media only screen and (min-width: 768px) {
+
+  .menuToggle-container {
+    visibility: hidden;
+  }
+}
+
+
+ 

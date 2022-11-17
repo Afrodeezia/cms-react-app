@@ -1,0 +1,38 @@
+
+.login-input {
+  margin: 15em auto;
+  background-color: #fefefe;
+  border: 1px solid #888;
+  min-width: 20em;
+  max-width: 30em;
+  padding: 2em;
+  border-radius: 7px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+
+  .Sign-input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+
+  .Sign-button {
+    background-color: #04AA6D;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  label {
+    background-color: transparent;
+  }
+}
