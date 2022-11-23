@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { auth } from '../../firebase/firebase'
 import './header.scss'
 
 import Burger from '../burger/burger'
@@ -17,7 +18,7 @@ const Header = () => {
   return (
     <div className='header-container'>
     <div className='headermenu'>
-      <h1> Dashboard </h1>
+      <h1> {auth.currentUser.email} </h1>
       <div></div>
       <Burger action={openOverlay} toggle = {overlayState} />
     </div>
