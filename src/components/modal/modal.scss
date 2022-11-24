@@ -24,6 +24,7 @@
 
   .modal-form {
     position: relative;
+    background-color: white;
     align-items: center;
     width: 21em;
     height: 25%;
@@ -36,28 +37,57 @@
       right: 10px;
       width: 30px;
       height: 30px;
-      background-color: red;
+      
+
+      &:after {
+        content: '';
+        height: 30px;
+        border-left: 2px solid #000;
+        position: absolute;
+        transform: rotate(45deg);
+        left: 14px;
+      }
+
+      &:before {
+        content: '';
+        height: 30px;
+        border-left: 2px solid #000;
+        position: absolute;
+        transform: rotate(-45deg);
+        left: 14px;
+      }
+      
   }
 
     .inputmodal-container {
       margin-top: 5em;
-      margin-right: 2.5em;
+      margin-right: 1.25em;
+      margin-left: 1.25em;
       display: flex;
       flex-direction: column;
       
-      
-      
-      
-      
-
         .inputmodal {
             display: inline-block;
+
             margin-top: .5em;
-            text-align: right;
+            text-align: center;
         }
     }
     
 
+  }
+
+  .modal-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: .5em;
+    gap: .2em;
+
+    .modal-but {
+      font-size: .8em;
+      padding: .4em 1em;
+    }
+    
   }
 }
 
