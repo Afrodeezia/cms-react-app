@@ -1,4 +1,9 @@
 import React, {useState} from 'react'
+import { db } from '../../firebase/firebase'
+import { collection,
+         getDocs,
+         doc,
+          } from 'firebase/firestore'
 import Tablelist from '../../components/tablelist/tablelist'
 import Search from '../../components/search/search';
 

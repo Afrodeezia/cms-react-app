@@ -11,7 +11,6 @@ const Tablelist = ({empcard, searchFilter, handleSort}) => {
       <table>
         <thead>
           <tr>
-            <th>Emp No.</th>
             <th>Name</th>
             <th><button className='tabBut' 
                 type='button' 
@@ -33,7 +32,6 @@ const Tablelist = ({empcard, searchFilter, handleSort}) => {
           .match(new RegExp(searchFilter, "i")))
           .map(empcard =>  (
           <tr key={empcard.id}>
-            <td>{empcard.id}</td>
             <td>{empcard.name}</td>
             <td>{empcard.Sales}</td>
             <td>{empcard.totalEfund}</td>
