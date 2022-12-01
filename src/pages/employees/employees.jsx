@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { db } from '../../firebase/firebase'
 import { collection,
          getDocs,
@@ -15,7 +15,8 @@ import './employees.scss'
 
 const Employees = () => {
 
-  const [emp] = useState(EmpData);
+  const [commSeller, setCommSeller] = useState([]);
+  const commSellerCollectionRef = collection(db, "commSeller")
   const [searchValue, setSearchValue] = useState('')
   const [sortedField, setSortedField] = useState('')
 
@@ -30,20 +31,19 @@ const Employees = () => {
 
 
     //this function sorts the table alphabetically.
-  let sortedEmp = [...emp]
+  /* let sortedEmp = [commSeller]
   sortedEmp.sort((a, b) => { 
 
-    if (a[sortedField.key] < b[sortedField.key]) {
+    if (a[sortedField.id] < b[sortedField.id]) {
       return sortedField.direction === 'ascending' ? -1 : 1;
     }
 
-    if (a[sortedField.key] > b[sortedField.key]) {
+    if (a[sortedField.id] > b[sortedField.id]) {
       return sortedField.direction === 'ascending' ? 1 : -1;
     }
       return 0;
-  });
-  
-  
+  }); */
+ 
   
   return (
     <div className='employees'>
@@ -52,7 +52,9 @@ const Employees = () => {
           setSearch={setSearchValue} 
           />
       <Tablelist 
-          empcard={sortedEmp} 
+          commSellerTable={commSeller}
+          setCommSellerTable={setCommSeller}
+          dbTable={commSellerCollectionRef}
           searchFilter={searchValue} 
           handleSort={requestSort}
           />
