@@ -1,6 +1,7 @@
 import { getDocs } from 'firebase/firestore'
 import React, {useEffect} from 'react'
 
+
 import './tablelist.scss'
 
 
@@ -53,7 +54,9 @@ const Tablelist = ({ commSellerTable,
             <td>{comm.fname}</td>
             <td>{comm.totalSold}</td>
             <td>{comm.Efund}</td>
-            <td>{comm.birthdate.toDate().toDate()}</td>
+            <td>{comm.contactNo}</td>
+            
+            
           </tr>
           ))}
         </tbody>

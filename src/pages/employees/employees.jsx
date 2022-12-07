@@ -1,15 +1,13 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import { db } from '../../firebase/firebase'
 import { collection,
          getDocs,
          doc,
+         addDoc,
           } from 'firebase/firestore'
 import Tablelist from '../../components/tablelist/tablelist'
 import Search from '../../components/search/search';
-
-
-import { EmpData } from '../../data/empdata';
-
+import ModalAdd from '../../components/modalAddEmp/modalAdd';
 
 import './employees.scss'
 
@@ -20,6 +18,19 @@ const Employees = () => {
   const [searchValue, setSearchValue] = useState('')
   const [sortedField, setSortedField] = useState('')
 
+  const [modalCreateState, setModalCreateState] = useState(false)
+  const [newFirst, setNewFirst] = useState("");
+  const [newLast, setNewLast] = useState("");
+
+  function openCreateModal() {
+    setModalCreateState(!modalCreateState)
+  }
+
+  const addCommSeller = async () => {
+    await addDoc(commSellerCollectionRef, 
+      { fname: newFirst, lname: newLast });
+  };
+
     const requestSort = key => {
       let direction = 'ascending';
 
@@ -28,6 +39,8 @@ const Employees = () => {
       }
       setSortedField({key, direction});
     }
+
+    
 
 
     //this function sorts the table alphabetically.
@@ -51,6 +64,7 @@ const Employees = () => {
           search={searchValue} 
           setSearch={setSearchValue} 
           />
+      <button onClick={() => openCreateModal()}>Add Employee</button>
       <Tablelist 
           commSellerTable={commSeller}
           setCommSellerTable={setCommSeller}
@@ -58,6 +72,12 @@ const Employees = () => {
           searchFilter={searchValue} 
           handleSort={requestSort}
           />
+        <ModalAdd toggle={modalCreateState} 
+                  action={openCreateModal}
+                  FirstName={setNewFirst}
+                  LastName={setNewLast}
+                  add={addCommSeller}
+                  />
     </div>
   )
 }
