@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import {auth} from '../../firebase/firebase.js'
-import { useAuthValue } from '../../firebase/authContext.js'
-import {createUserWithEmailAndPassword, sendEmailVerification} from 'firebase/auth'
+import { useAuth } from '../../firebase/authContext.js'
+import {sendEmailVerification} from 'firebase/auth'
 
 import  './register.scss'
 
@@ -13,7 +12,7 @@ const Register = () => {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [error, setError] = useState('')
     const navigate = useNavigate()
-    const {setTimeActive} = useAuthValue()
+    const {setTimeActive, createUser, user} = useAuth()
 
     const validatePassword = () => {
       let isValid = true
@@ -30,9 +29,9 @@ const Register = () => {
       e.preventDefault()
       setError('')
       if(validatePassword()) {
-        createUserWithEmailAndPassword(auth, email, password)
+        createUser(email, password)
         .then(() => {
-          sendEmailVerification(auth.currentUser)
+          sendEmailVerification(user)
         .then(() => {
           setTimeActive(true)
           navigate('/verifyEmail')

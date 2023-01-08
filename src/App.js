@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { AuthProvider } from './firebase/authContext';
-import { auth } from './firebase/firebase';
-import { onAuthStateChanged } from 'firebase/auth';
+import React from 'react';
+import { AuthContextProvider } from './firebase/authContext';
 import { 
         Routes,
         Route,
@@ -20,37 +18,51 @@ import Employees from './pages/employees/employees';
 import Signin from './pages/signin/Sign-in';
 import Register from './components/register/register';
 import VerifyEmail from './pages/verifyEmail/verifyEmail';
+import ProtectedRoute from './components/ProtectedRoute';
 
 
 function App() {
 
   const { pathname } = useLocation();
-  const [currentUser, setCurrentUser] = useState(null)
-  const [timeActive, setTimeActive] = useState(false)
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user)
-    })
-  }, [])
 
   return (
       <>
-      <AuthProvider value={{currentUser, timeActive, setTimeActive}}>
+      <AuthContextProvider>
       { pathname === '/' ? null: <Header /> }
       { pathname === '/' ? null: <Sidebar /> }
       <Routes >
-      <Route path='/' element={<Signin />} />
-      <Route path='/dashboard' element={<Dashboard />} />
-      <Route path='/products' element={<Products />} />
-      <Route path='/reports' element={<Report />} />
-      <Route path='/receive' element={<Receiving />} />
-      <Route path='/employees' element={<Employees />} />
-      <Route path='/register' element={<Register />} />
-      <Route path='/verifyEmail' element={<VerifyEmail />} />
+      <Route path='/' 
+              element={<Signin />} />
+      <Route path='/dashboard' 
+              element={<ProtectedRoute>
+                      <Dashboard />
+                      </ProtectedRoute>} />
+      <Route path='/products' 
+              element={<ProtectedRoute>
+                        <Products />
+                        </ProtectedRoute>} />
+      <Route path='/reports' 
+              element={<ProtectedRoute>
+                        <Report />
+                        </ProtectedRoute>} />
+      <Route path='/receive' 
+              element={<ProtectedRoute>
+                        <Receiving />
+                        </ProtectedRoute>} />
+      <Route path='/employees' 
+              element={<ProtectedRoute>
+                        <Employees />
+                        </ProtectedRoute>} />
+      <Route path='/register' 
+              element={<ProtectedRoute>
+                        <Register />
+                        </ProtectedRoute>} />
+      <Route path='/verifyEmail' 
+              element={<VerifyEmail />} />
       {/*<Route path='*' element={<Error />} />*/}
       </Routes>
-      </AuthProvider>
+      </AuthContextProvider>
       </>
     
   );

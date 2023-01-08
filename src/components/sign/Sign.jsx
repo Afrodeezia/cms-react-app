@@ -1,10 +1,9 @@
 import React, {useState} from 'react'
-import { signInWithEmailAndPassword,
-         sendEmailVerification 
+import { 
+         sendEmailVerification, 
         } from 'firebase/auth'
-import { auth } from '../../firebase/firebase'
 import { useNavigate } from 'react-router-dom'
-import { useAuthValue } from '../../firebase/authContext'
+import { useAuth } from '../../firebase/authContext'
 
 import './Sign.scss'
 
@@ -12,15 +11,15 @@ const Sign = () => {
 
   const [loginEmail, setLoginEmail ] = useState('')
   const [loginPassword, setLoginPassword ] = useState('')
-  const {setTimeActive} = useAuthValue()
+  const {setTimeActive, signIn, user} = useAuth()
   const navigate = useNavigate()
 
   const login = e => {
     e.preventDefault()
-    signInWithEmailAndPassword(auth, loginEmail, loginPassword)
+    signIn(loginEmail, loginPassword)
     .then(() => {
-      if(!auth.currentUser.emailVerified) {
-        sendEmailVerification(auth.currentUser)
+      if(!user.emailVerified) {
+        sendEmailVerification(user)
         .then(() => {
           setTimeActive(true)
           navigate('/verifyEmail')

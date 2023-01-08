@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useAuthValue } from '../../firebase/authContext.js'
+import { useAuth } from '../../firebase/authContext.js'
 import { auth } from '../../firebase/firebase'
 import { sendEmailVerification } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
@@ -8,17 +8,17 @@ import './verifyEmail.scss'
 
 const VerifyEmail = () => {
 
-  const {currentUser} = useAuthValue();
+  const {user} = useAuth();
   const [buttonDisabled, setButtonDisabled] = useState(false)
   const [time, setTime] = useState(60)
-  const { timeActive, setTimeActive } = useAuthValue()
+  const { timeActive, setTimeActive } = useAuth();
   const navigate = useNavigate()
 
   useEffect(() => {
     const interval = setInterval(() => {
-      currentUser?.reload()
+      user?.reload()
       .then(() => {
-        if(currentUser?.emailVerified){
+        if(auth.user?.emailVerified){
           clearInterval(interval)
           navigate('/dashboard')
         }
@@ -27,7 +27,7 @@ const VerifyEmail = () => {
           alert(err.message)
         })
     }, 1000)
-  }, [navigate , currentUser])
+  }, [navigate , user])
 
   useEffect(() => {
     let interval = null
@@ -45,7 +45,7 @@ const VerifyEmail = () => {
 
   const resendEmailVerification = () => {
       setButtonDisabled(true)
-      sendEmailVerification(auth.currentUser)
+      sendEmailVerification(auth.user)
       .then(() => {
         setButtonDisabled(false)
         setTimeActive(true)
@@ -63,7 +63,7 @@ const VerifyEmail = () => {
           <strong>
             A Verification email has been sent to:
           </strong><br />
-          <span className='dynaEmail'>{currentUser?.email}</span>
+          <span className='dynaEmail'>{user?.email}</span>
         </p>
           <span>
             Follow the instruction in the email to 
