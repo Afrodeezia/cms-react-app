@@ -59,7 +59,9 @@ function App() {
                         <Register />
                         </ProtectedRoute>} />
       <Route path='/verifyEmail' 
-              element={<VerifyEmail />} />
+              element={<ProtectedRoute>
+                        <VerifyEmail />
+                        </ProtectedRoute>} />
       {/*<Route path='*' element={<Error />} />*/}
       </Routes>
       </AuthContextProvider>

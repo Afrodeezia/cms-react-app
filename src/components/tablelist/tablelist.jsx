@@ -21,6 +21,7 @@ const Tablelist = ({ commSellerTable,
         };
         getCommSeller()
       }, [])
+      
 
       let comm = [...commSellerTable]
 
@@ -65,4 +66,6 @@ const Tablelist = ({ commSellerTable,
   )
 }
 
-export default Tablelist
+
+export default Tablelist 
+

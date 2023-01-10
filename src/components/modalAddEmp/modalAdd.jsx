@@ -1,20 +1,45 @@
-import React, {useState} from 'react'
+import React from 'react'
+import { addDoc } from 'firebase/firestore'
 import './modalAdd.scss'
 
+import '../../components/tablelist/tablelist'
 
 
-const ModalAdd = (props) => {
 
-  const modalState = props.toggle
-  const action = props.action
-  const first = props.FirstName
-  const last = props.LastName
-  const add = props.add
+const ModalAdd = ({
+              toggle, 
+              action,
+              close, 
+              firstName,
+              lastName,
+              setFirstName,
+              setLastName,
+              dbTable
+            
+                  
+                  }) => {
+
+ 
+
+  
+  
+
+  const addCommSeller = async (e) => {
+    e.preventDefault()
+    await addDoc(dbTable, { fname: firstName, lname: lastName });
+    action();
+
+    
+    
+  
+  };
+
+  
   
 
   return (
     <div className={`modalAdd-container 
-    ${modalState ? `active` : ''}`}>
+    ${toggle ? `active` : ''}`}>
       
         <form className='modalAdd-form'>
         <div className='modalAdd-close' onClick={action}>
@@ -22,14 +47,14 @@ const ModalAdd = (props) => {
           <div className='inputmodalAdd-container'>
           <label className='inputmodalAdd'>Last Name:{" "}
               <input 
-              onChange={(e) => {last(e.target.value)}}
+              onChange={(event) => {setLastName(event.target.value)}}
               type="text"
               size='12'
                />    
           </label>
         <label className='inputmodalAdd'>First Name:{" "}
             <input 
-              onChange={(e) => {first(e.target.value)}}
+              onChange={(event) => {setFirstName(event.target.value)}}
               type="text"
               size='12'
                />    
@@ -54,7 +79,7 @@ const ModalAdd = (props) => {
           </label>
           </div>
           <div className='modalAdd-buttons'>
-          <button className='modalAdd-but' onClick={add}>Enter</button>
+          <button className='modalAdd-but' onClick={addCommSeller}>Enter</button>
           <button className='modalAdd-but'>Cancel</button>
           </div>
         </form>
@@ -62,5 +87,7 @@ const ModalAdd = (props) => {
       </div>
   )
 }
+
+
 
 export default ModalAdd

@@ -18,7 +18,7 @@ const Sign = () => {
     e.preventDefault()
     signIn(loginEmail, loginPassword)
     .then(() => {
-      if(!user.emailVerified) {
+      if(user && !user.emailVerified) {
         sendEmailVerification(user)
         .then(() => {
           setTimeActive(true)

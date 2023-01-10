@@ -1,13 +1,13 @@
 import React, {useState} from 'react'
 import { db } from '../../firebase/firebase'
 import { collection,
-         getDocs,
-         doc,
-         addDoc,
+         
           } from 'firebase/firestore'
 import Tablelist from '../../components/tablelist/tablelist'
 import Search from '../../components/search/search';
 import ModalAdd from '../../components/modalAddEmp/modalAdd';
+
+
 
 import './employees.scss'
 
@@ -26,10 +26,12 @@ const Employees = () => {
     setModalCreateState(!modalCreateState)
   }
 
-  const addCommSeller = async () => {
-    await addDoc(commSellerCollectionRef, 
-      { fname: newFirst, lname: newLast });
-  };
+  function closeCreateModal() {
+    setModalCreateState(modalCreateState)
+  }
+  
+
+  
 
     const requestSort = key => {
       let direction = 'ascending';
@@ -74,9 +76,13 @@ const Employees = () => {
           />
         <ModalAdd toggle={modalCreateState} 
                   action={openCreateModal}
-                  FirstName={setNewFirst}
-                  LastName={setNewLast}
-                  add={addCommSeller}
+                  close={closeCreateModal}
+                  firstName={newFirst}
+                  lastName={newLast}
+                  setFirstName={setNewFirst}
+                  setLastName={setNewLast}
+                  dbTable={commSellerCollectionRef}
+                  
                   />
     </div>
   )
