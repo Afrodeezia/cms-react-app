@@ -16,7 +16,6 @@ const Employees = () => {
   const [commSeller, setCommSeller] = useState([]);
   const commSellerCollectionRef = collection(db, "commSeller")
   const [searchValue, setSearchValue] = useState('')
-  const [sortedField, setSortedField] = useState('')
 
   const [modalCreateState, setModalCreateState] = useState(false)
   const [newFirst, setNewFirst] = useState("");
@@ -26,39 +25,6 @@ const Employees = () => {
     setModalCreateState(!modalCreateState)
   }
 
-  function closeCreateModal() {
-    setModalCreateState(modalCreateState)
-  }
-  
-
-  
-
-    const requestSort = key => {
-      let direction = 'ascending';
-
-      if (sortedField.key === key && sortedField.direction === 'ascending') {
-        direction = 'descending';
-      }
-      setSortedField({key, direction});
-    }
-
-    
-
-
-    //this function sorts the table alphabetically.
-  /* let sortedEmp = [commSeller]
-  sortedEmp.sort((a, b) => { 
-
-    if (a[sortedField.id] < b[sortedField.id]) {
-      return sortedField.direction === 'ascending' ? -1 : 1;
-    }
-
-    if (a[sortedField.id] > b[sortedField.id]) {
-      return sortedField.direction === 'ascending' ? 1 : -1;
-    }
-      return 0;
-  }); */
- 
   
   return (
     <div className='employees'>
@@ -70,20 +36,21 @@ const Employees = () => {
       <Tablelist 
           commSellerTable={commSeller}
           setCommSellerTable={setCommSeller}
-          dbTable={commSellerCollectionRef}
-          searchFilter={searchValue} 
-          handleSort={requestSort}
+          searchFilter={searchValue}
+          firstName={newFirst}
+          lastName={newLast}
+          setFirstName={setNewFirst}
+          setLastName={setNewLast} 
           />
-        <ModalAdd toggle={modalCreateState} 
-                  action={openCreateModal}
-                  close={closeCreateModal}
-                  firstName={newFirst}
-                  lastName={newLast}
-                  setFirstName={setNewFirst}
-                  setLastName={setNewLast}
-                  dbTable={commSellerCollectionRef}
-                  
-                  />
+        <ModalAdd 
+          toggle={modalCreateState} 
+          action={openCreateModal}
+          firstName={newFirst}
+          lastName={newLast}
+          setFirstName={setNewFirst}
+          setLastName={setNewLast}
+          dbTable={commSellerCollectionRef}
+            />
     </div>
   )
 }

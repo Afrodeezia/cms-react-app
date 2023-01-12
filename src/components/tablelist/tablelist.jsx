@@ -1,6 +1,7 @@
-import { getDocs } from 'firebase/firestore'
-import React, {useEffect} from 'react'
-
+import { onSnapshot, collection } from 'firebase/firestore'
+import React, {useEffect, useState} from 'react'
+import { db }   from '../../firebase/firebase'
+import ModalEdit from '../modalEditEmp/modalEdit'
 
 import './tablelist.scss'
 
@@ -8,45 +9,58 @@ import './tablelist.scss'
 
 const Tablelist = ({ commSellerTable,
                      setCommSellerTable,
-                     dbTable, 
-                     searchFilter, 
-                     handleSort
-                  }) => {
+                     searchFilter,
+                     firstName,
+                     lastName,
+                     setFirstName,
+                     setLastName }) => {
 
-      useEffect(() => {
-        const getCommSeller = async () => {
-          const data = await getDocs(dbTable);
-          setCommSellerTable(data.docs.map((doc) =>
-           ({ ...doc.data(), id: doc.id})));
-        };
-        getCommSeller()
-      }, [])
-      
+      const [modalEditState, setModalEditState] = useState(false)
 
-      let comm = [...commSellerTable]
+      function openEditModal() {
+        setModalEditState(!modalEditState)
+      }
 
+      const handleEdit = async (id) => {
+        console.log(id)
+      }
+
+      useEffect(
+        () =>
+          onSnapshot(collection(db, "commSeller"), (snapshot) => 
+            setCommSellerTable(snapshot.docs.map((doc) => 
+            ({...doc.data(), id: doc.id})))
+        ), [] );
+
+                      
   return (
     <div className='cardlist-container'>
       <table>
         <thead>
           <tr>
-            <th>Last Name</th>
+            <th><button className='tabBut' 
+                type='button'
+                
+                >
+                Last Name
+            </button></th>
             <th>First Name</th>
             <th><button className='tabBut' 
                 type='button' 
-                onClick={() => handleSort('Sales')}>
+                
+                >
                 Total Sales
             </button></th>
             <th><button className='tabBut'
                 type='button' 
-                onClick={() => handleSort('totalEfund')}>
+                >
                   Total Efund
             </button></th>
-            <th>Contact #</th>
+            <th>action</th>
           </tr>
         </thead>
         <tbody>
-          {comm
+          {commSellerTable
           .filter(comm => comm.fname
           .match(new RegExp(searchFilter, "i")))
           .map(comm =>  (
@@ -55,17 +69,25 @@ const Tablelist = ({ commSellerTable,
             <td>{comm.fname}</td>
             <td>{comm.totalSold}</td>
             <td>{comm.Efund}</td>
-            <td>{comm.contactNo}</td>
-            
-            
+            <td>
+            <button onClick={() => handleEdit(comm.id)}>update</button>
+            <button>delete</button>
+            </td>  
           </tr>
           ))}
         </tbody>
       </table>
+        <ModalEdit 
+          toggle={modalEditState}
+          action={openEditModal}
+          modalFirstName={firstName}
+          modalLastName={lastName}
+          setModalFirstName={setFirstName}
+          setModalLastName={setLastName} />
     </div>
   )
 }
 
-
+                     
 export default Tablelist 
 

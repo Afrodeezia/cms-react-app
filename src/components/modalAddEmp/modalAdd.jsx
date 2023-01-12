@@ -2,40 +2,25 @@ import React from 'react'
 import { addDoc } from 'firebase/firestore'
 import './modalAdd.scss'
 
-import '../../components/tablelist/tablelist'
-
-
 
 const ModalAdd = ({
               toggle, 
               action,
-              close, 
               firstName,
               lastName,
               setFirstName,
               setLastName,
-              dbTable
-            
-                  
+              dbTable,                
                   }) => {
-
- 
-
-  
-  
+                    
 
   const addCommSeller = async (e) => {
     e.preventDefault()
-    await addDoc(dbTable, { fname: firstName, lname: lastName });
-    action();
-
-    
-    
-  
+    await addDoc(dbTable, { fname: firstName, lname: lastName })
+    .then(() => {
+      action();
+    })
   };
-
-  
-  
 
   return (
     <div className={`modalAdd-container 
@@ -59,28 +44,11 @@ const ModalAdd = ({
               size='12'
                />    
           </label>
-          <label className='inputmodalAdd'>Birthdate:{" "}
-            <input 
-              type="text"
-              size='12'
-               />    
-          </label>
-          <label className='inputmodalAdd'>Address:{" "}
-            <input 
-              type="text"
-              size='12'
-               />    
-          </label>
-          <label className='inputmodalAdd'>Contact Number:{" "}
-            <input 
-              type="text"
-              size='12'
-               />    
-          </label>
+          
           </div>
           <div className='modalAdd-buttons'>
           <button className='modalAdd-but' onClick={addCommSeller}>Enter</button>
-          <button className='modalAdd-but'>Cancel</button>
+          <button className='modalAdd-but' onClick={action}>Cancel</button>
           </div>
         </form>
        
