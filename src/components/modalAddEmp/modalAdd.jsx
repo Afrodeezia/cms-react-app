@@ -1,5 +1,5 @@
 import React from 'react'
-import { addDoc } from 'firebase/firestore'
+import commSellerDataService from '../../services/firebase.services'
 import './modalAdd.scss'
 
 
@@ -9,24 +9,33 @@ const ModalAdd = ({
               firstName,
               lastName,
               setFirstName,
-              setLastName,
-              dbTable,                
+              setLastName,               
                   }) => {
-                    
 
-  const addCommSeller = async (e) => {
+
+  const handleAdd = async (e) => {
     e.preventDefault()
-    await addDoc(dbTable, { fname: firstName, lname: lastName })
-    .then(() => {
-      action();
-    })
-  };
+    if (firstName === "" || lastName === "") {
+      alert("All fields are mandatory!");
+      return;
+    }
+    const newCommSeller ={firstName, lastName}
+    console.log(newCommSeller);
+    try {
+      await commSellerDataService.addCommSeller(
+        { fname: firstName, lname: lastName });
+      alert("added successfully");
+    } catch (err) {
+      alert(err.message)
+    }
+    action();
+  }
 
   return (
     <div className={`modalAdd-container 
     ${toggle ? `active` : ''}`}>
       
-        <form className='modalAdd-form'>
+        <form className='modalAdd-form' >
         <div className='modalAdd-close' onClick={action}>
           </div>
           <div className='inputmodalAdd-container'>
@@ -47,7 +56,7 @@ const ModalAdd = ({
           
           </div>
           <div className='modalAdd-buttons'>
-          <button className='modalAdd-but' onClick={addCommSeller}>Enter</button>
+          <button className='modalAdd-but'onClick={handleAdd}>Enter</button>
           <button className='modalAdd-but' onClick={action}>Cancel</button>
           </div>
         </form>
@@ -55,7 +64,6 @@ const ModalAdd = ({
       </div>
   )
 }
-
 
 
 export default ModalAdd

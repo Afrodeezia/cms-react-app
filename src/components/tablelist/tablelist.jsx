@@ -1,7 +1,9 @@
-import { onSnapshot, collection } from 'firebase/firestore'
 import React, {useEffect, useState} from 'react'
-import { db }   from '../../firebase/firebase'
+import { onSnapshot, collection } from 'firebase/firestore'
+import {db} from '../../firebase/firebase'
 import ModalEdit from '../modalEditEmp/modalEdit'
+import commSellerDataService from '../../services/firebase.services'
+
 
 import './tablelist.scss'
 
@@ -16,13 +18,19 @@ const Tablelist = ({ commSellerTable,
                      setLastName }) => {
 
       const [modalEditState, setModalEditState] = useState(false)
+      const [commSellerId, setCommSellerId] = useState("");
+
+      const getCommSellerIdHandler = (id) => {
+        console.log("The id of document to be edited:", id)
+        setCommSellerId(id)
+      }
 
       function openEditModal() {
         setModalEditState(!modalEditState)
       }
 
-      const handleEdit = async (id) => {
-        console.log(id)
+      const deleteHandler = async (id) => {
+        await commSellerDataService.deleteCommSeller(id)
       }
 
       useEffect(
@@ -31,7 +39,7 @@ const Tablelist = ({ commSellerTable,
             setCommSellerTable(snapshot.docs.map((doc) => 
             ({...doc.data(), id: doc.id})))
         ), [] );
-
+      
                       
   return (
     <div className='cardlist-container'>
@@ -70,8 +78,8 @@ const Tablelist = ({ commSellerTable,
             <td>{comm.totalSold}</td>
             <td>{comm.Efund}</td>
             <td>
-            <button onClick={() => handleEdit(comm.id)}>update</button>
-            <button>delete</button>
+            <button onClick={() => openEditModal()}>update</button>
+            <button onClick={() => deleteHandler(comm.id)}>delete</button>
             </td>  
           </tr>
           ))}
@@ -83,7 +91,12 @@ const Tablelist = ({ commSellerTable,
           modalFirstName={firstName}
           modalLastName={lastName}
           setModalFirstName={setFirstName}
-          setModalLastName={setLastName} />
+          setModalLastName={setLastName}
+          modalCommSellerTable={commSellerTable}
+          getCommSellerId={getCommSellerIdHandler}
+          id={commSellerId}
+          setId={setCommSellerId}
+           />
     </div>
   )
 }

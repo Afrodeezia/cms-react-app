@@ -1,6 +1,4 @@
-import React from 'react'
-import { doc, setDoc } from 'firebase/firestore'
-import { db } from '../../firebase/firebase'
+import React, {useEffect} from 'react'
 import './modalEdit.scss'
 
 const ModalEdit = ({
@@ -9,23 +7,35 @@ const ModalEdit = ({
                   modalFirstName,
                   modalLastName,
                   setModalFirstName,
-                  setModalLastName  }) => {
-
-        
-
-        const editCommSeller = async (id) => {
-            const docRef = doc(db, "commSeller", id);
-            setDoc(docRef, { fname: modalFirstName, lname: modalLastName})
+                  setModalLastName,
+                  modalCommSellerTable,
+                  getCommSellerId,
+                  id,
+                  setId
+                  }) => {
+         
+        /*
+        const editCommSeller = async (e, id) => {
+          const docRef = doc(db, "commSeller", id);
+          e.preventDefault()
+           await setDoc(docRef, { fname: modalFirstName, lname: modalLastName})
             .then(() => {
               action();
             })          
         };
+        */
 
+        useEffect(() => {
+          console.log('The ID is:', id);
+          if(id !== undefined && id !== "") {
+
+          }
+        }, [id])
   return (
     <div className={`modalAdd-container 
     ${toggle ? `active` : ''}`}>
       
-        <form className='modalAdd-form'>
+        <form className='modalAdd-form' >
         <div className='modalAdd-close' onClick={action}>
           </div>
           <div className='inputmodalAdd-container'>
@@ -46,7 +56,7 @@ const ModalEdit = ({
           
           </div>
           <div className='modalAdd-buttons'>
-          <button className='modalAdd-but' onClick={editCommSeller}>Enter</button>
+          <button className='modalAdd-but' type='submit' onClick={(e) => e.preventDefault()}>update</button>
           <button className='modalAdd-but' onClick={action}>Cancel</button>
           </div>
         </form>
