@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react'
-import { onSnapshot, collection } from 'firebase/firestore'
+import { onSnapshot, collection, query } from 'firebase/firestore'
 import {db} from '../../firebase/firebase'
 import ModalEdit from '../modalEditEmp/modalEdit'
-import commSellerDataService from '../../services/firebase.services'
+import commSellerDataService,
+       { commSellerCollectionRef }
+        from '../../services/firebase.services'
 
 
 import './tablelist.scss'
@@ -18,27 +20,31 @@ const Tablelist = ({ commSellerTable,
                      setLastName }) => {
 
       const [modalEditState, setModalEditState] = useState(false)
-      const [commSellerId, setCommSellerId] = useState("");
+      const [currentId, setCurrentId] = useState("")
 
-      const getCommSellerIdHandler = (id) => {
-        console.log("The id of document to be edited:", id)
-        setCommSellerId(id)
-      }
 
-      function openEditModal() {
+      
+
+      function openEditModal(id) {
         setModalEditState(!modalEditState)
+        setCurrentId(id)
       }
 
       const deleteHandler = async (id) => {
         await commSellerDataService.deleteCommSeller(id)
       }
-
-      useEffect(
-        () =>
-          onSnapshot(collection(db, "commSeller"), (snapshot) => 
-            setCommSellerTable(snapshot.docs.map((doc) => 
-            ({...doc.data(), id: doc.id})))
-        ), [] );
+     
+      useEffect(()=>{
+        const q = query(commSellerCollectionRef)
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          let commSellerArr = []
+          querySnapshot.forEach((doc) => {
+            commSellerArr.push({...doc.data(), id: doc.id})
+          });
+          setCommSellerTable(commSellerArr)
+        })
+          return () => unsubscribe()
+      }, [])
       
                       
   return (
@@ -78,10 +84,11 @@ const Tablelist = ({ commSellerTable,
             <td>{comm.totalSold}</td>
             <td>{comm.Efund}</td>
             <td>
-            <button onClick={() => openEditModal()}>update</button>
+            <button onClick={() => openEditModal(comm.id)}>update</button>
             <button onClick={() => deleteHandler(comm.id)}>delete</button>
             </td>  
           </tr>
+          
           ))}
         </tbody>
       </table>
@@ -93,10 +100,11 @@ const Tablelist = ({ commSellerTable,
           setModalFirstName={setFirstName}
           setModalLastName={setLastName}
           modalCommSellerTable={commSellerTable}
-          getCommSellerId={getCommSellerIdHandler}
-          id={commSellerId}
-          setId={setCommSellerId}
+          setModalCommSellerTable={setCommSellerTable}
+          id={currentId}
+          setId={setCurrentId}
            />
+          
     </div>
   )
 }

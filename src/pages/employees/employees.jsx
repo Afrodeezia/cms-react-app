@@ -11,9 +11,7 @@ import './employees.scss'
 const Employees = () => {
 
   const [commSeller, setCommSeller] = useState([]);
-  
   const [searchValue, setSearchValue] = useState('')
-
   const [modalCreateState, setModalCreateState] = useState(false)
   const [newFirst, setNewFirst] = useState("");
   const [newLast, setNewLast] = useState("");

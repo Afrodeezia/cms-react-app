@@ -1,7 +1,7 @@
 import { db } from '../firebase/firebase'
 
 import { collection, 
-         getDocs,  
+         getDoc,  
          addDoc, 
          updateDoc, 
          deleteDoc, 
@@ -27,7 +27,7 @@ class commSellerDataService {
 
   getCommSeller = (id) => {
     const commSellerDoc = doc(db, "commSeller", id);
-    return getDocs(commSellerDoc)  
+    return getDoc(commSellerDoc)  
   };
   
   

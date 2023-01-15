@@ -1,5 +1,8 @@
 import React, {useEffect} from 'react'
 import './modalEdit.scss'
+import commSellerDataService from '../../services/firebase.services'
+
+
 
 const ModalEdit = ({
                   toggle,
@@ -9,46 +12,55 @@ const ModalEdit = ({
                   setModalFirstName,
                   setModalLastName,
                   modalCommSellerTable,
-                  getCommSellerId,
+                  setModalCommSellerTable,
                   id,
-                  setId
+                  setCurrentId
                   }) => {
-         
-        /*
-        const editCommSeller = async (e, id) => {
-          const docRef = doc(db, "commSeller", id);
-          e.preventDefault()
-           await setDoc(docRef, { fname: modalFirstName, lname: modalLastName})
-            .then(() => {
-              action();
-            })          
+        
+        const handleEdit = async () => {
+          try {
+            const docSnap = await commSellerDataService.getCommSeller(id);
+            console.log(docSnap.data());
+            setModalLastName(docSnap.data().lname);
+            setModalFirstName(docSnap.data().fname);
+          } catch (err) {
+            alert(err.message)
+          }
         };
-        */
-
+        
+        
         useEffect(() => {
-          console.log('The ID is:', id);
+          console.log(id)
           if(id !== undefined && id !== "") {
-
+            handleEdit()
           }
         }, [id])
+
+       
+         
+      
   return (
     <div className={`modalAdd-container 
     ${toggle ? `active` : ''}`}>
-      
-        <form className='modalAdd-form' >
+        <form className='modalAdd-form'>
+        
         <div className='modalAdd-close' onClick={action}>
           </div>
           <div className='inputmodalAdd-container'>
+          
           <label className='inputmodalAdd'>Last Name:{" "}
               <input 
               onChange={(event) => {setModalLastName(event.target.value)}}
+              value={modalLastName}
               type="text"
               size='12'
+              autoFocus
                />    
           </label>
         <label className='inputmodalAdd'>First Name:{" "}
             <input 
               onChange={(event) => {setModalFirstName(event.target.value)}}
+              value={modalFirstName}
               type="text"
               size='12'
                />    
@@ -56,9 +68,10 @@ const ModalEdit = ({
           
           </div>
           <div className='modalAdd-buttons'>
-          <button className='modalAdd-but' type='submit' onClick={(e) => e.preventDefault()}>update</button>
+          <button className='modalAdd-but' type='submit' >update</button>
           <button className='modalAdd-but' onClick={action}>Cancel</button>
           </div>
+        
         </form>
        
       </div>
