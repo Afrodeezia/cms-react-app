@@ -30,6 +30,15 @@ const Tablelist = ({ commSellerTable,
         setCurrentId(id)
       }
 
+      function closeEditModal(e) {
+        e.preventDefault()
+        setModalEditState(!modalEditState)
+      }
+
+      function submitEditModal() {
+        setModalEditState(!modalEditState)
+      }
+
       const deleteHandler = async (id) => {
         await commSellerDataService.deleteCommSeller(id)
       }
@@ -94,7 +103,8 @@ const Tablelist = ({ commSellerTable,
       </table>
         <ModalEdit 
           toggle={modalEditState}
-          action={openEditModal}
+          action={closeEditModal}
+          action1={submitEditModal}
           modalFirstName={firstName}
           modalLastName={lastName}
           setModalFirstName={setFirstName}

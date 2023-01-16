@@ -7,6 +7,7 @@ import commSellerDataService from '../../services/firebase.services'
 const ModalEdit = ({
                   toggle,
                   action,
+                  action1,
                   modalFirstName,
                   modalLastName,
                   setModalFirstName,
@@ -17,16 +18,25 @@ const ModalEdit = ({
                   setCurrentId
                   }) => {
         
-        const handleEdit = async () => {
-          try {
+        const handleEdit = async (e) => {
+            try {
             const docSnap = await commSellerDataService.getCommSeller(id);
             console.log(docSnap.data());
             setModalLastName(docSnap.data().lname);
             setModalFirstName(docSnap.data().fname);
-          } catch (err) {
-            alert(err.message)
-          }
+            } catch (err) {
+              alert(err.message);
+            }
         };
+
+        const handleSubmit = async (e) => {
+            e.preventDefault()
+            await commSellerDataService.updateCommSeller(id, 
+                {lname: modalLastName, fname: modalFirstName});
+            alert("Updated Successfully")
+            action1();
+           
+        }
         
         
         useEffect(() => {
@@ -35,17 +45,16 @@ const ModalEdit = ({
             handleEdit()
           }
         }, [id])
-
        
-         
       
   return (
     <div className={`modalAdd-container 
     ${toggle ? `active` : ''}`}>
-        <form className='modalAdd-form'>
-        
+        <form className='modalAdd-form' onSubmit={handleSubmit}>
+       
         <div className='modalAdd-close' onClick={action}>
           </div>
+          
           <div className='inputmodalAdd-container'>
           
           <label className='inputmodalAdd'>Last Name:{" "}
