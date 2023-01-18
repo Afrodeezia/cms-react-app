@@ -60,17 +60,16 @@
   }
 
     .inputmodal-container {
-      margin-top: 5em;
-      margin-right: 1.25em;
+      margin-top: 3.5em;
+      margin-right: 3.8em;
       margin-left: 1.25em;
       display: flex;
       flex-direction: column;
       
         .inputmodal {
             display: inline-block;
-
             margin-top: .5em;
-            text-align: center;
+            text-align: right;
         }
     }
     
@@ -80,7 +79,7 @@
   .modal-buttons {
     display: flex;
     justify-content: center;
-    margin-top: .5em;
+    margin-top: .8em;
     gap: .2em;
 
     .modal-but {

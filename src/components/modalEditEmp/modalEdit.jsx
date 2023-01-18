@@ -12,10 +12,7 @@ const ModalEdit = ({
                   modalLastName,
                   setModalFirstName,
                   setModalLastName,
-                  modalCommSellerTable,
-                  setModalCommSellerTable,
                   id,
-                  setCurrentId
                   }) => {
         
         const handleEdit = async (e) => {

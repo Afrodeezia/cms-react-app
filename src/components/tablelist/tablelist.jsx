@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { onSnapshot, collection, query } from 'firebase/firestore'
-import {db} from '../../firebase/firebase'
+import { onSnapshot, query } from 'firebase/firestore'
 import ModalEdit from '../modalEditEmp/modalEdit'
 import commSellerDataService,
        { commSellerCollectionRef }
@@ -8,7 +7,6 @@ import commSellerDataService,
 
 
 import './tablelist.scss'
-
 
 
 const Tablelist = ({ commSellerTable,
@@ -19,11 +17,16 @@ const Tablelist = ({ commSellerTable,
                      setFirstName,
                      setLastName }) => {
 
-      const [modalEditState, setModalEditState] = useState(false)
-      const [currentId, setCurrentId] = useState("")
+      const headers = [{key: "last_name", label: "Last Name"},
+                       {key: "first_name", label: "First Name"},
+                       {key: "total_sales", label: "Total Sales"},
+                       {key: "total_efund", label: "Total Efund"},
+                       {key: "action", label: "Action"},];
 
-
+      const [modalEditState, setModalEditState] = useState(false);
+      const [currentId, setCurrentId] = useState("");
       
+
 
       function openEditModal(id) {
         setModalEditState(!modalEditState)
@@ -42,7 +45,7 @@ const Tablelist = ({ commSellerTable,
       const deleteHandler = async (id) => {
         await commSellerDataService.deleteCommSeller(id)
       }
-     
+   
       useEffect(()=>{
         const q = query(commSellerCollectionRef)
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -61,27 +64,16 @@ const Tablelist = ({ commSellerTable,
       <table>
         <thead>
           <tr>
-            <th><button className='tabBut' 
-                type='button'
-                
-                >
-                Last Name
-            </button></th>
-            <th>First Name</th>
-            <th><button className='tabBut' 
-                type='button' 
-                
-                >
-                Total Sales
-            </button></th>
-            <th><button className='tabBut'
-                type='button' 
-                >
-                  Total Efund
-            </button></th>
-            <th>action</th>
+            {headers.map((row) => {
+              return <td key={row.key} 
+                         className='tabBut'
+                         >
+                         {row.label}</td>
+            })}
           </tr>
         </thead>
+
+
         <tbody>
           {commSellerTable
           .filter(comm => comm.fname
@@ -109,11 +101,9 @@ const Tablelist = ({ commSellerTable,
           modalLastName={lastName}
           setModalFirstName={setFirstName}
           setModalLastName={setLastName}
-          modalCommSellerTable={commSellerTable}
-          setModalCommSellerTable={setCommSellerTable}
           id={currentId}
-          setId={setCurrentId}
-           />
+          
+           /> 
           
     </div>
   )
