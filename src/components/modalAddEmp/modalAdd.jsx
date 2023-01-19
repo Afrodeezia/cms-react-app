@@ -22,20 +22,22 @@ const ModalAdd = ({
     const newCommSeller ={firstName, lastName}
     console.log(newCommSeller);
     try {
+      alert("added successfully");
       await commSellerDataService.addCommSeller(
         { fname: firstName, lname: lastName });
-      alert("added successfully");
+          
     } catch (err) {
       alert(err.message)
     }
     action();
+    e.target.reset()
   }
 
   return (
     <div className={`modalAdd-container 
     ${toggle ? `active` : ''}`}>
       
-        <form className='modalAdd-form' >
+        <form className='modalAdd-form' onSubmit={handleAdd} >
         <div className='modalAdd-close' onClick={action}>
           </div>
           <div className='inputmodalAdd-container'>
@@ -56,7 +58,7 @@ const ModalAdd = ({
           
           </div>
           <div className='modalAdd-buttons'>
-          <button className='modalAdd-but'onClick={handleAdd}>Enter</button>
+          <button className='modalAdd-but'type='submit'>Enter</button>
           <button className='modalAdd-but' onClick={action}>Cancel</button>
           </div>
         </form>

@@ -40,7 +40,7 @@ const ModalEdit = ({
     if (id !== undefined && id !== "") {
       handleEdit();
     }
-  }, [id]);
+  }, [id, handleEdit]);
 
   return (
     <div
