@@ -3,13 +3,13 @@ import { getAuth } from 'firebase/auth'
 import { getFirestore } from '@firebase/firestore'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCsoMXKdo9gMAHZUusjO_ST5EKXND2Ht5Q",
-  authDomain: "eleveight-app.firebaseapp.com",
-  projectId: "eleveight-app",
-  storageBucket: "eleveight-app.appspot.com",
-  messagingSenderId: "412922294206",
-  appId: "1:412922294206:web:a7d4c4997fc082136753ef",
-  measurementId: "G-0CLT56V366"
+  apiKey: "AIzaSyCE59WE8zB14sQ4A2o3KN050iKkuwAEArc",
+  authDomain: "eleveight-project.firebaseapp.com",
+  projectId: "eleveight-project",
+  storageBucket: "eleveight-project.appspot.com",
+  messagingSenderId: "78180843606",
+  appId: "1:78180843606:web:06223a966f3094e8ae7bf7",
+  measurementId: "G-D24K7KPC6J"
 };
 
 export const app = initializeApp(firebaseConfig)

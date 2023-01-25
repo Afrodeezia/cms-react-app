@@ -60,7 +60,6 @@ const TableComm = ({
             return (
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell) => {
-                  console.log("cell", cell);
 
                   if (cell.column.Header === "Action") {
                     return (

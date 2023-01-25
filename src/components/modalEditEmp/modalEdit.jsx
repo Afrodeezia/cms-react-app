@@ -12,8 +12,8 @@ const ModalEdit = ({
   setModalLastName,
   id,
 }) => {
-  const handleEdit = useCallback(
-    async (e) => {
+  const handlePopulate = useCallback(
+    async () => {
       try {
         const docSnap = await commSellerDataService.getCommSeller(id);
         console.log(docSnap.data());
@@ -25,6 +25,7 @@ const ModalEdit = ({
     },
     [id, setModalFirstName, setModalLastName]
   );
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     await commSellerDataService.updateCommSeller(id, {
@@ -38,9 +39,9 @@ const ModalEdit = ({
   useEffect(() => {
     console.log(id);
     if (id !== undefined && id !== "") {
-      handleEdit();
+      handlePopulate();
     }
-  }, [id, handleEdit]);
+  }, [id, handlePopulate]);
 
   return (
     <div
