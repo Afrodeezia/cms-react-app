@@ -19,8 +19,10 @@ const ModalAdd = ({
       alert("All fields are mandatory!");
       return;
     }
+    /*
     const newCommSeller ={firstName, lastName}
     console.log(newCommSeller);
+    */
     try {
       alert("added successfully");
       await commSellerDataService.addCommSeller(

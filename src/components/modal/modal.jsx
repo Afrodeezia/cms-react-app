@@ -1,18 +1,27 @@
-import productDataService, { productCollectionRef } from '../../services/products.services'
-import { onSnapshot, query, increment } from 'firebase/firestore'
+import productDataService, 
+      { productCollectionRef } 
+      from '../../services/products.services'
+import transDataService
+       from '../../services/trans.services'
+import { onSnapshot, 
+         query, 
+         increment,
+        serverTimestamp } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import './modal.scss'
 
-const Modal = (props) => {
+const Modal = ({
+                product,
+                setProduct,
+                quantity,
+                setQuantity,
+                select,
+                setSelect,
+                toggle,
+                action
+                }) => {
 
-  const modalState = props.toggle
-  const action = props.action
-  const [ product, setProduct ] = useState([]);
-  const [ quantity, setQuantity ] = useState(0);
-  const [ select, setSelect ] = useState("")
- 
-
-
+    
 
   useEffect(() => {
     const q = query(productCollectionRef);
@@ -32,24 +41,31 @@ const Modal = (props) => {
     await productDataService.updateProduct(select, {
       productQty: increment(quantity)
     })
+    transDataService.addTrans(
+      { product: select, 
+        quantity: quantity,
+        timestamp: serverTimestamp() })
     alert("Entry Successful")
+    action();
   }
 
 
 
   return (
     <div className={`modal-container 
-    ${modalState ? `active` : ''}`}>
+    ${toggle ? `active` : ''}`}>
       
         <form className='modal-form' onSubmit={handleSubmit}>
         <div className='modal-close' onClick={action}>
           </div>
           <div className='inputmodal-container'>
           <label className='inputmodal'>Enter Product:{" "}
-          <select value={select} onChange={(e) => setSelect(e.target.value)} >
+          <select value={select} 
+                  onChange={(e) => setSelect(e.target.value)} >
           {product.map((product) => (
             <option key={product.id}
                     value={product.id}
+                    
                     >
               {product.productName}
             </option>

@@ -3,7 +3,14 @@ import { Link } from 'react-router-dom'
 import Modal from '../modal/modal';
 import './midmenu.scss';
 
-const Midmenu = () => {
+const Midmenu = ({ 
+                  product,
+                  setProduct,
+                  quantity,
+                  setQuantity,
+                  select,
+                  setSelect
+                }) => {
 
   const [modalState, setmodalState] = useState(false)
 
@@ -22,7 +29,15 @@ const Midmenu = () => {
       <Link className='midcard'>Add IBE</Link>
       <Link to={'/register'} className='midcard'>Register User</Link>
     </div>
-    <Modal toggle={modalState} action={openModal}/>
+    <Modal toggle={modalState}
+           action={openModal}
+           product={product}
+           setProduct={setProduct}
+           quantity={quantity}
+           setQuantity={setQuantity}
+           select={select}
+           setSelect={setSelect}
+           />
     </div>
     
   )
