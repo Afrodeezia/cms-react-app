@@ -2,12 +2,8 @@ import { db } from '../firebase/firebase'
 
 import { collection, 
          getDoc,
-         getDocs,  
-         addDoc, 
          updateDoc, 
-         deleteDoc, 
          doc,
-         docs,
         } from 'firebase/firestore'
 
 export const productCollectionRef = collection(db, 'products')
