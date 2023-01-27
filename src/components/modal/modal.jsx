@@ -7,7 +7,7 @@ import { onSnapshot,
          query, 
          increment,
         serverTimestamp } from 'firebase/firestore'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import './modal.scss'
 
 const Modal = ({
@@ -20,22 +20,28 @@ const Modal = ({
                 toggle,
                 action
                 }) => {
-
-    
-
-  useEffect(() => {
-    const q = query(productCollectionRef);
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      let productArr = [];
-      querySnapshot.forEach((doc) => {
-        setSelect(doc.id)
-        productArr.push({...doc.data(), id: doc.id});
-      });
-      setProduct(productArr)
-    });
-      return () => unsubscribe();
-  }, [setSelect, setProduct])
-
+   
+                  
+  const handleSnap = useCallback(
+    async () => {
+      try {
+        const q = query(productCollectionRef);
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          let productArr = [];
+          querySnapshot.forEach((doc) => {
+            setSelect(doc.id)
+            productArr.push({...doc.data(), id: doc.id});
+          });
+          setProduct(productArr)
+        });
+        return () => unsubscribe();
+      } catch (err) {
+        alert(err.message);
+      }
+    },
+    [setSelect, setProduct]
+  );
+   
   const handleSubmit = async (e) => {
     e.preventDefault();
     await productDataService.updateProduct(select, {
@@ -45,12 +51,16 @@ const Modal = ({
       { product: select, 
         quantity: quantity,
         timestamp: serverTimestamp() })
+        
     alert("Entry Successful")
     action();
   }
 
+  useEffect(() => {
+    handleSnap();
+  }, [handleSnap])
 
-
+  
   return (
     <div className={`modal-container 
     ${toggle ? `active` : ''}`}>
@@ -65,7 +75,7 @@ const Modal = ({
           {product.map((product) => (
             <option key={product.id}
                     value={product.id}
-                    
+                    label={product.productName}
                     >
               {product.productName}
             </option>
