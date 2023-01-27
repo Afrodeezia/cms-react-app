@@ -7,7 +7,7 @@ import { onSnapshot,
          query, 
          increment,
         serverTimestamp } from 'firebase/firestore'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import './modal.scss'
 
 const Modal = ({
@@ -44,11 +44,12 @@ const Modal = ({
    
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const productSnap =  await productDataService.getAllProduct(select)
     await productDataService.updateProduct(select, {
       productQty: increment(quantity)
     })
     transDataService.addTrans(
-      { product: select, 
+      { product: productSnap.data().productName, 
         quantity: quantity,
         timestamp: serverTimestamp() })
         
@@ -75,7 +76,6 @@ const Modal = ({
           {product.map((product) => (
             <option key={product.id}
                     value={product.id}
-                    label={product.productName}
                     >
               {product.productName}
             </option>
