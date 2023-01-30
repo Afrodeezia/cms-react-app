@@ -37,7 +37,6 @@ const ModalEdit = ({
   };
 
   useEffect(() => {
-    console.log(id);
     if (id !== undefined && id !== "") {
       handlePopulate();
     }

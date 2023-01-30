@@ -20,6 +20,8 @@ class productDataService {
         return getDoc(productDoc)  
       };
 
+ 
+
 }
 
 export default new productDataService();
