@@ -6,9 +6,12 @@ import transDataService
 import { onSnapshot, 
          query, 
          increment,
-        serverTimestamp } from 'firebase/firestore'
-import React, { useCallback, useEffect } from 'react'
+         } from 'firebase/firestore'
+import React, { useCallback, useEffect, useState } from 'react'
+import DatePicker from 'react-datepicker'
+import "react-datepicker/dist/react-datepicker.css";
 import './modal.scss'
+
 
 const Modal = ({
                 product,
@@ -18,9 +21,11 @@ const Modal = ({
                 select,
                 setSelect,
                 toggle,
-                action
+                action,
                 }) => {
-   
+
+  const [recStartDate , setRecStartDate ] = useState(new Date());
+
                   
   const handleSnap = useCallback(
     async () => {
@@ -51,10 +56,12 @@ const Modal = ({
     transDataService.addTrans(
       { product: productSnap.data().productName, 
         quantity: quantity,
-        timestamp: serverTimestamp() })
+        timestamp: recStartDate
+         })
         
     alert("Entry Successful")
     action();
+    e.target.reset()
   }
 
   useEffect(() => {
@@ -91,6 +98,19 @@ const Modal = ({
               onChange={(e) => setQuantity(e.target.value)}
                />    
           </label>
+
+          <label className='inputmodal'>
+            <DatePicker 
+              selected={recStartDate}
+              onChange={(date) => setRecStartDate(date)}
+              timeInputLabel="Time:"
+              dateFormat="MM/dd/yyyy h:mm aa"
+              showTimeInput
+              />
+          </label>
+         
+
+
           </div>
           <div className='modal-buttons'>
           <button className='modal-but' type='submit'>Enter</button>

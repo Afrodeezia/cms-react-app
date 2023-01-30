@@ -11,6 +11,7 @@ const Dashboard = () => {
   const [ product, setProduct ] = useState([]);
   const [ quantity, setQuantity ] = useState(0);
   const [ select, setSelect ] = useState("")
+  
 
   return (
     <div className="dashboard">
@@ -21,7 +22,8 @@ const Dashboard = () => {
           quantity={quantity}
           setQuantity={setQuantity}
           select={select}
-          setSelect={setSelect} />
+          setSelect={setSelect}
+          />
       <DayChart />
       
     </div>

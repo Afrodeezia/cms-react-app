@@ -1,12 +1,15 @@
 import React, { useState, useMemo, useEffect } from 'react'
-
+import './receiving.scss'
 import { transCollectionRef }
       from '../../services/trans.services'
 import { onSnapshot, query } from 'firebase/firestore'
-import { useSortBy, useTable } from 'react-table'
+import {  useTable } from 'react-table'
+import DatePicker from 'react-datepicker'
 
 const Receiving = () => {
   const [ trans, setTrans ] = useState([]);
+  const [ startDate, setStartDate ] = useState(new Date());
+  const [ endDate, setEndDate ] = useState(new Date());
 
   const data = useMemo(() => 
             [...trans], [trans]);
@@ -32,7 +35,7 @@ const Receiving = () => {
           prepareRow,
            } = useTable({columns,
                         data,},
-                        useSortBy)
+                       )
 
   useEffect(() => {
     const q = query(transCollectionRef);
@@ -46,61 +49,69 @@ const Receiving = () => {
     return () => unsubscribe();
   }, [setTrans]);
 
-  const firstPageRows = rows.slice(0, 10);
 
   return (
-    <div>
-      <table {...getTableProps()}>
-        <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps(
-                    column.getSortByToggleProps())}>
-                  {column.render("Header")}
-                  <span>
-                    {column.isSorted
-                      ? column.isSortedDesc
-                      ? ' 🔽'
-                      : ' 🔼'
-                      : ''}
-                  </span>
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-          {firstPageRows.map((row) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => {
+    <div className='receiving'>
 
-                  if (cell.column.Header === "Action") {
-                    return (
-                      <td {...cell.getCellProps()}>
-                        <button>
-                          update
-                        </button>
-                        <button >
-                          delete
-                        </button>
-                      </td>
-                    );
-                  }
-                  return (
-                    <td {...cell.getCellProps()}>
-                      {cell.render("Cell")}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
+      <DatePicker 
+        selected={startDate}
+        onChange={(date) => setStartDate(date)}
+        selectsStart
+        startDate={startDate}
+        endDate={endDate}
+      />
+       <DatePicker
+        selected={endDate}
+        onChange={(date) => setEndDate(date)}
+        selectsEnd
+        startDate={startDate}
+        endDate={endDate}
+        minDate={startDate}
+      />
+      <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
+       <thead>
+         {headerGroups.map(headerGroup => (
+           <tr {...headerGroup.getHeaderGroupProps()}>
+             {headerGroup.headers.map(column => (
+               <th
+                 {...column.getHeaderProps()}
+                 style={{
+                   borderBottom: 'solid 3px red',
+                   background: 'aliceblue',
+                   color: 'black',
+                   fontWeight: 'bold',
+                 }}
+               >
+                 {column.render('Header')}
+               </th>
+             ))}
+           </tr>
+         ))}
+       </thead>
+       <tbody {...getTableBodyProps()}>
+         {rows.map(row => {
+           prepareRow(row)
+           return (
+             <tr {...row.getRowProps()}>
+               {row.cells.map(cell => {
+                 return (
+                   <td
+                     {...cell.getCellProps()}
+                     style={{
+                       padding: '10px',
+                       border: 'solid 1px gray',
+                       background: 'papayawhip',
+                     }}
+                   >
+                     {cell.render('Cell')}
+                   </td>
+                 )
+               })}
+             </tr>
+           )
+         })}
         </tbody>
       </table>
-      <div>Showing the first 10 results of {rows.length} rows</div>
     </div>
   )
 }
