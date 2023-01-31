@@ -24,7 +24,7 @@ const Dashboard = () => {
           select={select}
           setSelect={setSelect}
           />
-      <DayChart />
+      
       
     </div>
   )

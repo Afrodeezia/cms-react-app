@@ -9,7 +9,7 @@ import './verifyEmail.scss'
 const VerifyEmail = () => {
 
   const {user} = useAuth();
-  const [buttonDisabled, setButtonDisabled] = useState(false)
+  const [ setButtonDisabled] = useState(false)
   const [time, setTime] = useState(60)
   const { timeActive, setTimeActive } = useAuth();
   const navigate = useNavigate()
@@ -41,7 +41,7 @@ const VerifyEmail = () => {
       clearInterval(interval)
     }
     return () => clearInterval(interval);
-  }, [timeActive, time])
+  }, [timeActive, setTimeActive, time])
 
   const resendEmailVerification = () => {
       setButtonDisabled(true)

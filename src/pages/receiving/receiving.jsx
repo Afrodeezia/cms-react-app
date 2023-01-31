@@ -1,15 +1,22 @@
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useMemo, useEffect, Fragment } from 'react'
 import './receiving.scss'
 import { transCollectionRef }
       from '../../services/trans.services'
-import { onSnapshot, query } from 'firebase/firestore'
-import {  useTable } from 'react-table'
-import DatePicker from 'react-datepicker'
+import { onSnapshot, 
+         query 
+        } from 'firebase/firestore'
+import {  useTable,
+          useFilters,
+          useExpanded,
+          usePagination, 
+          useSortBy} from 'react-table'
+import { Filter,
+         DefaultColumnFilter,
+         DateRangeColumnFilter,
+         dateBetweenFilterFn } from '../../services/react-table.services'
 
-const Receiving = () => {
+const Receiving = ({renderRowSubComponent}) => {
   const [ trans, setTrans ] = useState([]);
-  const [ startDate, setStartDate ] = useState(new Date());
-  const [ endDate, setEndDate ] = useState(new Date());
 
   const data = useMemo(() => 
             [...trans], [trans]);
@@ -22,7 +29,13 @@ const Receiving = () => {
         accessor: 'quantity'},
         {id: 'timestamp',
           Header: 'Date',
-        accessor: e => e.timestamp.toDate().toDateString()},
+        accessor: e => e.timestamp.toDate().toLocaleDateString(
+                    {  
+                     year:"numeric", 
+                     month:"numeric", 
+                     day:"numeric"}),
+        Filter: DateRangeColumnFilter,
+        filter: dateBetweenFilterFn},
         {Header: "Action",
         accessor: 'action'}
       ],
@@ -31,11 +44,41 @@ const Receiving = () => {
   const { getTableProps,
           getTableBodyProps,
           headerGroups,
-          rows,
           prepareRow,
+          page,
+          visibleColumns,
+          canPreviousPage,
+          canNextPage,
+          pageOptions,
+          pageCount,
+          gotoPage,
+          nextPage,
+          previousPage,
+          setPageSize,
+          state: {pageIndex, pageSize}
            } = useTable({columns,
-                        data,},
-                       )
+                        data,
+                        defaultColumn: { Filter: DefaultColumnFilter },
+                        initialState: { pageIndex: 0, pageSize: 10 }
+                      },
+                        useFilters,
+                        useSortBy,
+                        useExpanded,
+                        usePagination
+                       );
+
+  const generateSortingIndicator = (column) => {
+    return column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : "";
+  };
+
+  const onChangeInSelect = (event) => {
+    setPageSize(Number(event.target.value));
+  };
+
+  const onChangeInInput = (event) => {
+    const page = event.target.value ? Number(event.target.value) -1 : 0;
+    gotoPage(page);
+  };
 
   useEffect(() => {
     const q = query(transCollectionRef);
@@ -53,21 +96,6 @@ const Receiving = () => {
   return (
     <div className='receiving'>
 
-      <DatePicker 
-        selected={startDate}
-        onChange={(date) => setStartDate(date)}
-        selectsStart
-        startDate={startDate}
-        endDate={endDate}
-      />
-       <DatePicker
-        selected={endDate}
-        onChange={(date) => setEndDate(date)}
-        selectsEnd
-        startDate={startDate}
-        endDate={endDate}
-        minDate={startDate}
-      />
       <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
        <thead>
          {headerGroups.map(headerGroup => (
@@ -82,18 +110,25 @@ const Receiving = () => {
                    fontWeight: 'bold',
                  }}
                >
-                 {column.render('Header')}
+               <div {...column.getSortByToggleProps()}>
+                  {column.render('Header')}
+                  {generateSortingIndicator(column)}
+               </div>
+                 <Filter column={column} />
                </th>
              ))}
            </tr>
          ))}
        </thead>
+
+
        <tbody {...getTableBodyProps()}>
-         {rows.map(row => {
+         {page.map(row => {
            prepareRow(row)
            return (
-             <tr {...row.getRowProps()}>
-               {row.cells.map(cell => {
+            <Fragment key={row.getRowProps().key}>
+            <tr>
+               {row.cells.map((cell) => {
                  return (
                    <td
                      {...cell.getCellProps()}
@@ -105,13 +140,86 @@ const Receiving = () => {
                    >
                      {cell.render('Cell')}
                    </td>
-                 )
+                 );
                })}
              </tr>
-           )
-         })}
+             {row.isExpanded && (
+              <tr>
+              <td colSpan={visibleColumns.length}>
+                  {renderRowSubComponent(row)}
+              </td>
+              </tr>
+             )}
+            </Fragment>
+             );
+             })}
         </tbody>
       </table>
+
+      <div style={{ maxWidth: 1000, margin: "0 auto", textAlign: "center" }}>
+          <div md={3}>
+            <button 
+              type='button'
+              onClick={() => gotoPage(0)}
+              disabled={!canPreviousPage}
+              >
+              {"<<"}
+            </button>
+            &nbsp;
+            <button
+              type='button'
+              onClick={previousPage}
+              disabled={!canPreviousPage}
+              >
+              {"<"}
+            </button>
+          </div>
+          <div md={2} style={{ marginTop: 7 }}>
+            Page{" "}
+            <strong>
+              { pageIndex + 1 } of { pageOptions.length }
+            </strong>
+          </div>
+          <div md={2}>
+            <input
+              type='number'
+              min={1}
+              style={{ width: 70 }}
+              max={ pageOptions.length }
+              defaultValue={ pageIndex + 1 }
+              onChange={ onChangeInInput }>
+            </input>
+          </div>
+          <div md={2}>
+            <select
+              value={pageSize}
+              onChange={onChangeInSelect}
+              >
+              {[10, 20, 30, 40, 50].map((pageSize) => (
+                <option key={pageSize} value={pageSize}>
+                  Show {pageSize}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div md={3}>
+            <button
+              type='button'
+              onClick={nextPage}
+              disabled={!canNextPage}
+              >
+                {">"}
+              </button>
+              &nbsp;
+              <button
+                type='button'
+                onClick={() => gotoPage(pageCount - 1)}
+                disabled={!canNextPage}
+                >
+                {">>"}
+              </button>
+          </div>
+      </div>
     </div>
   )
 }
