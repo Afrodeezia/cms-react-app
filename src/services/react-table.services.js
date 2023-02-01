@@ -21,7 +21,7 @@ export const DefaultColumnFilter = ({
       onChange={(e) => {
         setFilter(e.target.value || undefined);
       }}
-      placeholder={`buscar (${length}) ...`}
+      placeholder={`${length} records ...`}
     ></input>
   );
 };

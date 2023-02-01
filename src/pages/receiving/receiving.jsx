@@ -23,12 +23,8 @@ const Receiving = ({renderRowSubComponent}) => {
 
   const columns = useMemo(
       () => [
-        {Header: 'Product',
-        accessor: 'product'},
-        {Header: 'Quantity',
-        accessor: 'quantity'},
         {id: 'timestamp',
-          Header: 'Date',
+        Header: 'Date',
         accessor: e => e.timestamp.toDate().toLocaleDateString(
                     {  
                      year:"numeric", 
@@ -36,8 +32,14 @@ const Receiving = ({renderRowSubComponent}) => {
                      day:"numeric"}),
         Filter: DateRangeColumnFilter,
         filter: dateBetweenFilterFn},
+        {Header: 'Product',
+        accessor: 'product'},
+        {Header: 'Quantity',
+        accessor: 'quantity'},
         {Header: "Action",
-        accessor: 'action'}
+        accessor: 'action',
+        disableSortBy: true,
+        }
       ],
       []);
 
@@ -67,9 +69,9 @@ const Receiving = ({renderRowSubComponent}) => {
                         usePagination
                        );
 
-  const generateSortingIndicator = (column) => {
+ /* const generateSortingIndicator = (column) => {
     return column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : "";
-  };
+  }; */
 
   const onChangeInSelect = (event) => {
     setPageSize(Number(event.target.value));
@@ -110,9 +112,8 @@ const Receiving = ({renderRowSubComponent}) => {
                    fontWeight: 'bold',
                  }}
                >
-               <div {...column.getSortByToggleProps()}>
-                  {column.render('Header')}
-                  {generateSortingIndicator(column)}
+               <div>
+                  {column.render('Header')}     
                </div>
                  <Filter column={column} />
                </th>
