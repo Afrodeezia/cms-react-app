@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import './dashboard.scss';
 
-import DayChart from "../../components/daychart/dayChart";
+
 import Topmenu from "../../components/topmenu/topmenu";
 import Midmenu from "../../components/midmenu/midmenu";
 

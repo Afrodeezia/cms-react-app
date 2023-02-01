@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, Fragment } from 'react'
 import './receiving.scss'
+import ModalReceive from '../../components/modalReceive/modalReceive'
 import { transCollectionRef }
       from '../../services/trans.services'
 import { onSnapshot, 
@@ -16,7 +17,11 @@ import { Filter,
          dateBetweenFilterFn } from '../../services/react-table.services'
 
 const Receiving = ({renderRowSubComponent}) => {
+  const [ product, setProduct ] = useState([]);
+  const [ quantity, setQuantity ] = useState(0);
+  const [ select, setSelect ] = useState("")
   const [ trans, setTrans ] = useState([]);
+  const [modalState, setmodalState] = useState(false)
 
   const data = useMemo(() => 
             [...trans], [trans]);
@@ -24,22 +29,21 @@ const Receiving = ({renderRowSubComponent}) => {
   const columns = useMemo(
       () => [
         {id: 'timestamp',
-        Header: 'Date',
+          Header: 'Date',
         accessor: e => e.timestamp.toDate().toLocaleDateString(
                     {  
                      year:"numeric", 
                      month:"numeric", 
                      day:"numeric"}),
         Filter: DateRangeColumnFilter,
-        filter: dateBetweenFilterFn},
+        filter: dateBetweenFilterFn,
+        },
         {Header: 'Product',
         accessor: 'product'},
         {Header: 'Quantity',
         accessor: 'quantity'},
         {Header: "Action",
-        accessor: 'action',
-        disableSortBy: true,
-        }
+        accessor: 'action'}
       ],
       []);
 
@@ -61,7 +65,10 @@ const Receiving = ({renderRowSubComponent}) => {
            } = useTable({columns,
                         data,
                         defaultColumn: { Filter: DefaultColumnFilter },
-                        initialState: { pageIndex: 0, pageSize: 10 }
+                        initialState: { pageIndex: 0, 
+                                        pageSize: 10,
+                                      sortBy: [{ id: 'timestamp',
+                                                  desc: true }] }
                       },
                         useFilters,
                         useSortBy,
@@ -69,9 +76,14 @@ const Receiving = ({renderRowSubComponent}) => {
                         usePagination
                        );
 
- /* const generateSortingIndicator = (column) => {
+   function openModal() {
+        setmodalState(!modalState)
+   };
+
+
+  const generateSortingIndicator = (column) => {
     return column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : "";
-  }; */
+  };
 
   const onChangeInSelect = (event) => {
     setPageSize(Number(event.target.value));
@@ -97,7 +109,7 @@ const Receiving = ({renderRowSubComponent}) => {
 
   return (
     <div className='receiving'>
-
+      <button onClick={() => openModal()}> New Transaction </button>
       <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
        <thead>
          {headerGroups.map(headerGroup => (
@@ -112,8 +124,9 @@ const Receiving = ({renderRowSubComponent}) => {
                    fontWeight: 'bold',
                  }}
                >
-               <div>
-                  {column.render('Header')}     
+               <div {...column.getSortByToggleProps()}>
+                  {column.render('Header')}
+                  {generateSortingIndicator(column)}
                </div>
                  <Filter column={column} />
                </th>
@@ -157,10 +170,11 @@ const Receiving = ({renderRowSubComponent}) => {
         </tbody>
       </table>
 
-      <div style={{ maxWidth: 1000, 
-                    display: 'flex', 
-                    justifyContent: 'center' 
-                    }}>
+      <div style={{ 
+                maxWidth: 1000, 
+                margin: "0 auto", 
+                textAlign: "center" 
+                }}>
           <div md={3}>
             <button 
               type='button'
@@ -224,6 +238,15 @@ const Receiving = ({renderRowSubComponent}) => {
               </button>
           </div>
       </div>
+      <ModalReceive toggle={modalState}
+                    action={openModal}
+                    product={product}
+                    setProduct={setProduct}
+                    quantity={quantity}
+                    setQuantity={setQuantity}
+                    select={select}
+                    setSelect={setSelect}
+           />
     </div>
   )
 }
