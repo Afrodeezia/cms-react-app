@@ -157,7 +157,10 @@ const Receiving = ({renderRowSubComponent}) => {
         </tbody>
       </table>
 
-      <div style={{ maxWidth: 1000, margin: "0 auto", textAlign: "center" }}>
+      <div style={{ maxWidth: 1000, 
+                    display: 'flex', 
+                    justifyContent: 'center' 
+                    }}>
           <div md={3}>
             <button 
               type='button'
