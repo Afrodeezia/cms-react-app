@@ -57,11 +57,12 @@ export const SelectColumnFilter = ({
 };
 
 export function dateBetweenFilterFn(rows, id, filterValues) {
-  const sd = filterValues[0] ? new Date(filterValues[0]) : undefined;
-  const ed = filterValues[1] ? new Date(filterValues[1]) : undefined;
+  const sd = filterValues[0] ? new Date(filterValues[0]).setHours(0, 0, 0, 0) : undefined;
+  const ed = filterValues[1] ? new Date(filterValues[1]).setHours(23, 59, 59, 999) : undefined;
   if (ed || sd) {
     return rows.filter((r) => {
       // format data
+      
       var dateAndHour = r.values[id].split(" ");
       var [year, month, day] = dateAndHour[0].split("-");
       var date = [month, day, year].join("/");
@@ -122,7 +123,7 @@ export function DateRangeColumnFilter({
           const val = e.target.value;
           setFilter((old = []) => [
             old[0],
-            val ? val.concat("T23:59:59.999Z") : undefined
+            val ? val : undefined
           ]);
         }}
         type="date"

@@ -104,7 +104,7 @@ const Modal = ({
               selected={recStartDate}
               onChange={(date) => setRecStartDate(date)}
               timeInputLabel="Time:"
-              dateFormat="MM/dd/yyyy h:mm aa"
+              dateFormat="MM/dd/yyyy"
               showTimeInput
               />
           </label>
