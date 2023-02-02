@@ -6,7 +6,6 @@ import transDataService
 import { onSnapshot, 
          query, 
          increment,
-
          } from 'firebase/firestore'
 import React, { useCallback, useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker'

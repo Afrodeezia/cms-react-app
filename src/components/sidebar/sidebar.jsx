@@ -25,7 +25,8 @@ const Sidebar = () => {
           <Link to={'/dashboard'} className='sidelink'>Dashboard</Link>
           <Link to={'/products'} className='sidelink'>Products</Link>
           <Link to={'/reports'} className='sidelink'>Reports</Link>
-          <Link to={'/receive'} className='sidelink'>Receivings</Link>
+          <Link to={'/receive'} className='sidelink'>Receive</Link>
+          <Link to={'/dispatch'} className='sidelink'>Dispatch</Link>
           <Link to={'/employees'} className='sidelink'>Employees</Link>
           <span onClick={logout} className='sidelink'>Log out</span>
         </div>
