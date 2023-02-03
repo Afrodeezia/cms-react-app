@@ -25,7 +25,7 @@ class commSellerDataService {
     return deleteDoc(commSellerDoc)
   };
 
-  getCommSeller = (id) => {
+  getAllCommSeller = (id) => {
     const commSellerDoc = doc(db, "commSeller", id);
     return getDoc(commSellerDoc)  
   };

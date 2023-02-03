@@ -19,6 +19,7 @@ import Signin from './pages/signin/Sign-in';
 import Register from './components/register/register';
 import VerifyEmail from './pages/verifyEmail/verifyEmail';
 import ProtectedRoute from './components/ProtectedRoute';
+import Dispatch from './pages/dispatch/dispatch';
 
 
 function App() {
@@ -49,6 +50,10 @@ function App() {
       <Route path='/receive' 
               element={<ProtectedRoute>
                         <Receiving />
+                        </ProtectedRoute>} />
+        <Route path='/dispatch' 
+              element={<ProtectedRoute>
+                        <Dispatch />
                         </ProtectedRoute>} />
       <Route path='/employees' 
               element={<ProtectedRoute>

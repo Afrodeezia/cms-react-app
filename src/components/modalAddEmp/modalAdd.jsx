@@ -9,7 +9,9 @@ const ModalAdd = ({
               firstName,
               lastName,
               setFirstName,
-              setLastName,               
+              setLastName,
+              dispatch,
+              setDispatch               
                   }) => {
 
 
@@ -26,7 +28,7 @@ const ModalAdd = ({
     try {
       alert("added successfully");
       await commSellerDataService.addCommSeller(
-        { fname: firstName, lname: lastName });
+        { fname: firstName, lname: lastName, commDispatch: dispatch });
           
     } catch (err) {
       alert(err.message)

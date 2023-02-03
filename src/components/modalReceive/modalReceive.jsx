@@ -6,14 +6,15 @@ import transDataService
 import { onSnapshot, 
          query, 
          increment,
+
          } from 'firebase/firestore'
 import React, { useCallback, useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
-import './modal.scss'
+import './modalReceive.scss'
 
 
-const Modal = ({
+const ModalReceive = ({
                 product,
                 setProduct,
                 quantity,
@@ -120,4 +121,4 @@ const Modal = ({
   )
 }
 
-export default Modal
+export default ModalReceive

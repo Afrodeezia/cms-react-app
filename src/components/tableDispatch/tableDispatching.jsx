@@ -1,85 +1,44 @@
-import React, { useState, useMemo, useEffect, Fragment } from 'react'
-import './receiving.scss'
-import ModalReceive from '../../components/modalReceive/modalReceive'
-import { transCollectionRef }
-      from '../../services/trans.services'
-import { onSnapshot, 
-         query 
-        } from 'firebase/firestore'
+import React, {useEffect, Fragment} from 'react'
+import {onSnapshot, query} from 'firebase/firestore'
 import {  useTable,
           useFilters,
           useExpanded,
           usePagination, 
           useSortBy} from 'react-table'
-import { Filter,
-         DefaultColumnFilter,
-         DateRangeColumnFilter,
-         dateBetweenFilterFn } from '../../services/react-table.services'
+import { Filter, DefaultColumnFilter } from '../../services/react-table.services'
+import {dispatchCollectionRef} from '../../services/dispatch.services'
 
-const Receiving = ({renderRowSubComponent}) => {
-  const [ product, setProduct ] = useState([]);
-  const [ quantity, setQuantity ] = useState(0);
-  const [ select, setSelect ] = useState("")
-  const [ trans, setTrans ] = useState([]);
-  const [modalState, setmodalState] = useState(false)
 
-  const data = useMemo(() => 
-            [...trans], [trans]);
+const TableDispatching = ({data, columns, setDispatch, renderRowSubComponent}) => {
 
-  const columns = useMemo(
-      () => [
-        {id: 'timestamp',
-          Header: 'Date',
-        accessor: e => e.timestamp.toDate().toLocaleDateString(
-                    {  
-                     year:"numeric", 
-                     month:"numeric", 
-                     day:"numeric"}),
-        Filter: DateRangeColumnFilter,
-        filter: dateBetweenFilterFn,
-        },
-        {Header: 'Product',
-        accessor: 'product'},
-        {Header: 'Quantity',
-        accessor: 'quantity'},
-        {Header: "Action",
-        accessor: 'action'}
-      ],
-      []);
-
-  const { getTableProps,
-          getTableBodyProps,
-          headerGroups,
-          prepareRow,
-          page,
-          visibleColumns,
-          canPreviousPage,
-          canNextPage,
-          pageOptions,
-          pageCount,
-          gotoPage,
-          nextPage,
-          previousPage,
-          setPageSize,
-          state: {pageIndex, pageSize}
-           } = useTable({columns,
-                        data,
-                        defaultColumn: { Filter: DefaultColumnFilter },
-                        initialState: { pageIndex: 0, 
-                                        pageSize: 10,
-                                      sortBy: [{ id: 'timestamp',
-                                                  desc: true }] }
-                      },
-                        useFilters,
-                        useSortBy,
-                        useExpanded,
-                        usePagination
-                       );
-
-   function openModal() {
-        setmodalState(!modalState)
-   };
-
+const { getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        prepareRow,
+        page,
+        visibleColumns,
+        canPreviousPage,
+        canNextPage,
+        pageOptions,
+        pageCount,
+        gotoPage,
+        nextPage,
+        previousPage,
+        setPageSize,
+        state: {pageIndex, pageSize}
+            } = useTable({columns,
+                          data,
+                          defaultColumn: { Filter: DefaultColumnFilter },
+                          initialState: { pageIndex: 0, 
+                                          pageSize: 10,
+                                          sortBy: [{ id: 'date',
+                                                     desc: true }] }
+                          },
+                          useFilters,
+                          useSortBy,
+                          useExpanded,
+                          usePagination
+                          );
 
   const generateSortingIndicator = (column) => {
     return column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : "";
@@ -95,22 +54,20 @@ const Receiving = ({renderRowSubComponent}) => {
   };
 
   useEffect(() => {
-    const q = query(transCollectionRef);
+    const q = query(dispatchCollectionRef);
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      let transArr = [];
+      let dispatchArr = [];
       querySnapshot.forEach((doc) => {
-        transArr.push({...doc.data(), id: doc.id})
+        dispatchArr.push({...doc.data(), id: doc.id})
       });
-      setTrans(transArr)
+      setDispatch(dispatchArr)
     });
     return () => unsubscribe();
-  }, [setTrans]);
+  }, [setDispatch])
 
-
-  return (
-    <div className='receiving'>
-      <button onClick={() => openModal()}> New Transaction </button>
-      <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
+    return (
+      <div>
+        <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
        <thead>
          {headerGroups.map(headerGroup => (
            <tr {...headerGroup.getHeaderGroupProps()}>
@@ -238,17 +195,8 @@ const Receiving = ({renderRowSubComponent}) => {
               </button>
           </div>
       </div>
-      <ModalReceive toggle={modalState}
-                    action={openModal}
-                    product={product}
-                    setProduct={setProduct}
-                    quantity={quantity}
-                    setQuantity={setQuantity}
-                    select={select}
-                    setSelect={setSelect}
-           />
-    </div>
-  )
+      </div>
+    )
 }
 
-export default Receiving
+export default TableDispatching

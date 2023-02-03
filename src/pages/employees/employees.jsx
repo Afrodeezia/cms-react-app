@@ -13,6 +13,7 @@ const Employees = () => {
   const [modalCreateState, setModalCreateState] = useState(false)
   const [newFirst, setNewFirst] = useState("");
   const [newLast, setNewLast] = useState("");
+  const [dispatch, setDispatch] = useState(0);
 
   function openCreateModal() {
     setModalCreateState(!modalCreateState)
@@ -37,6 +38,8 @@ const Employees = () => {
           lastName={newLast}
           setFirstName={setNewFirst}
           setLastName={setNewLast}
+          dispatch={dispatch}
+          setDispatch={setDispatch}
           
             />
     </div>
