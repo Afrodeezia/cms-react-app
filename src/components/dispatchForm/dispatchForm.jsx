@@ -14,8 +14,6 @@ import DatePicker from 'react-datepicker'
 import './dispatchForm.scss'
 
 const DispatchForm = ({
-                  dispatch,
-                  setDispatch,
                   seller,
                   setSeller,
                   product,
@@ -25,10 +23,12 @@ const DispatchForm = ({
                   selectProduct,
                   setSelectProduct,
                   dispatchQty, 
-                  setDispatchQty
+                  setDispatchQty,
+                  recStartDate,
+                  setRecStartDate
                       }) => {
 
-  const [recStartDate, setRecStartDate] = useState(new Date());
+  
 
   const handleSellerSnap = useCallback(
     async () => {
@@ -71,7 +71,8 @@ const DispatchForm = ({
   );
 
   const handleSubmit = async (e) => {
-    const sellerSnap = await commSellerCollectionRef.getAllCommSeller()
+    e.preventDefault();
+    const sellerSnap = await commSellerDataService.getAllCommSeller(selectSeller)
     const productSnap = await productDataService.getAllProduct(selectProduct)
     await productDataService.updateProduct(selectProduct, {
       productQty: increment(-dispatchQty)
@@ -94,9 +95,9 @@ const DispatchForm = ({
 
   return (
     <div>
-      <form>
+      <form onSubmit={handleSubmit}>
 
-        <label>
+        <label>Date:{" "}
           <DatePicker
             selected={recStartDate}
             onChange={(date) => setRecStartDate(date)} 
@@ -140,7 +141,7 @@ const DispatchForm = ({
         </label>
 
        
-        <button>
+        <button type='submit'>
           Enter
         </button>
       

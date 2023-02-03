@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import DispatchForm from '../../components/dispatchForm/dispatchForm';
-//import TableListDispatching from '../../components/tableListDispatch/tableListDispatch';
+import TableListDispatching from '../../components/tableListDispatch/tableListDispatching';
 
 const Dispatch = () => {
 
@@ -10,6 +10,7 @@ const Dispatch = () => {
   const [selectSeller, setSelectSeller] = useState("");
   const [selectProduct, setSelectProduct] = useState("");
   const [dispatchQty, setDispatchQty] = useState(0);
+  const [recStartDate, setRecStartDate] = useState(new Date());
  
 
 
@@ -17,8 +18,6 @@ const Dispatch = () => {
   return (
     <div>
       <DispatchForm 
-        dispatch={dispatch}
-        setDispatch={setDispatch}
         seller={seller}
         setSeller={setSeller}
         product={product}
@@ -29,7 +28,19 @@ const Dispatch = () => {
         setSelectProduct={setSelectProduct}
         dispatchQty={dispatchQty}
         setDispatchQty={setDispatchQty}
+        recStartDate={recStartDate}
+        setRecStartDate={setRecStartDate}
       />
+      <TableListDispatching
+        dispatch={dispatch}
+        setDispatch={setDispatch}
+        seller={seller}
+        setSeller={setSeller}
+        product={product}
+        setProduct={setProduct}
+        dispatchQty={dispatchQty}
+        setDispatchQty={setDispatchQty}
+           />
     </div>
   )
 }
