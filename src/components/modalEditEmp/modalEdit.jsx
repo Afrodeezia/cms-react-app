@@ -1,6 +1,11 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 import "./modalEdit.scss";
 import commSellerDataService from "../../services/firebase.services";
+import { areaCollectionRef } from "../../services/area.services";
+import { supervisorCollectionRef } from "../../services/supervisor.services";
+import { onSnapshot, query,} from 'firebase/firestore'
+import DatePicker from 'react-datepicker'
+import "react-datepicker/dist/react-datepicker.css";
 
 const ModalEdit = ({
   toggle,
@@ -10,20 +15,59 @@ const ModalEdit = ({
   modalLastName,
   setModalFirstName,
   setModalLastName,
+  newEfund,
+  setNewEfund,
+  outBalance,
+  setOutBalance,
+  address,
+  setAddress,
+  area,
+  setArea,
+  contact,
+  setContact,
+  supervisor,
+  setSupervisor,
+  selectArea,
+  setSelectArea,
+  selectSupervisor,
+  setSelectSupervisor,
   id,
 }) => {
+
+  const [commArea, setCommArea] = useState("")
+  const [commSuper, setCommSuper] = useState("")
+  const [recStartDate , setRecStartDate ] = useState("");
+  
+
   const handlePopulate = useCallback(
     async () => {
       try {
-        const docSnap = await commSellerDataService.getCommSeller(id);
+        const docSnap = await commSellerDataService.getAllCommSeller(id);
         console.log(docSnap.data());
         setModalLastName(docSnap.data().lname);
         setModalFirstName(docSnap.data().fname);
+        setNewEfund(docSnap.data().efund);
+        setOutBalance(docSnap.data().outBalance);
+        setAddress(docSnap.data().Address);
+        setCommArea(docSnap.data().area);
+        setContact(docSnap.data().contactNo);
+        setCommSuper(docSnap.data().supervisor);
+        setRecStartDate(docSnap.data().birthDate);
       } catch (err) {
         alert(err.message);
       }
     },
-    [id, setModalFirstName, setModalLastName]
+    [ id, 
+      setModalFirstName, 
+      setModalLastName, 
+      setNewEfund, 
+      setOutBalance, 
+      setAddress, 
+      setCommArea, 
+      setContact, 
+      setCommSuper, 
+      setRecStartDate
+    ]
   );
 
   const handleSubmit = async (e) => {
@@ -31,16 +75,67 @@ const ModalEdit = ({
     await commSellerDataService.updateCommSeller(id, {
       lname: modalLastName,
       fname: modalFirstName,
+      efund: newEfund,
+      outBalance: outBalance,
+      Address: address,
+      area: commArea,
+      contactNo: contact,
+      supervisor: commSuper,
+      birthDate: recStartDate,
     });
     alert("Updated Successfully");
     action1();
   };
 
+  const handleAreaSnap = useCallback(
+    async () => {
+      try {
+        const q = query(areaCollectionRef);
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          let areaArr = [];
+          querySnapshot.forEach((doc) => {
+            setSelectArea(doc.id)
+            areaArr.push({...doc.data(), id: doc.id});
+          });
+          setArea(areaArr)
+        });
+        return () => unsubscribe();
+      } catch (err) {
+        alert(err.message);
+      }
+    },
+    [setArea, setSelectArea]
+  );
+
+  const handleSupervisorSnap = useCallback(
+    async () => {
+      try {
+        const q = query(supervisorCollectionRef);
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          let supervisorArr = [];
+          querySnapshot.forEach((doc) => {
+            setSelectSupervisor(doc.id)
+            supervisorArr.push({...doc.data(), id: doc.id});
+          });
+          setSupervisor(supervisorArr)
+        });
+        return () => unsubscribe();
+      } catch (err) {
+        alert(err.message);
+      }
+    },
+    [setSupervisor, setSelectSupervisor]
+  );
+
   useEffect(() => {
     if (id !== undefined && id !== "") {
       handlePopulate();
+      handleAreaSnap();
+      handleSupervisorSnap();
     }
-  }, [id, handlePopulate]);
+  }, [id, handlePopulate, handleAreaSnap, handleSupervisorSnap]);
+
+  
 
   return (
     <div
@@ -63,6 +158,7 @@ const ModalEdit = ({
               autoFocus
             />
           </label>
+
           <label className="inputmodalAdd">
             First Name:{" "}
             <input
@@ -74,6 +170,53 @@ const ModalEdit = ({
               size="12"
             />
           </label>
+
+          <label className='inputmodalAdd'>Birth Date:{" "}
+          <DatePicker 
+              selected={recStartDate}
+              onChange={(date) => setRecStartDate(date)}
+              dateFormat="MM/dd/yyyy" 
+              /> 
+          </label>
+
+          <label className='inputmodalAdd'>Address:{" "}
+            <input 
+              onChange={(event) => {setAddress(event.target.value)}}
+              value={address}
+              type="text"
+              size='12'
+               />    
+          </label>
+
+          <label className='inputmodalAdd'>Contact Number:{" "}
+            <input 
+              onChange={(event) => {setContact(event.target.value)}}
+              value={contact}
+              type="text"
+              size='12'
+               />    
+          </label>
+
+          <label className='inputmodalAdd'>Area:{" "}
+            <select value={commArea} onChange={(e) => setCommArea(e.target.value)}>
+              {area.map((area) => (
+                <option key={area.id} value={area.id}>
+                    {area.location}
+                </option>
+              ))}
+            </select>
+          </label>
+          
+          <label className='inputmodalAdd'>Supervisor:{" "}
+            <select value={commSuper} onChange={(e) => setCommSuper(e.target.value)}>
+                {supervisor.map((supervisor) => (
+                  <option key={supervisor.id} value={supervisor.id}>
+                      {`${supervisor.firstName} ${supervisor.lastName}`}
+                  </option>
+                ))}
+              </select>
+          </label>
+          
         </div>
         <div className="modalAdd-buttons">
           <button className="modalAdd-but" type="submit">

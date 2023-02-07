@@ -6,8 +6,7 @@ import transDataService
 import { onSnapshot, 
          query, 
          increment,
-
-         } from 'firebase/firestore'
+        } from 'firebase/firestore'
 import React, { useCallback, useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
@@ -78,8 +77,7 @@ const ModalReceive = ({
           </div>
           <div className='inputmodal-container'>
           <label className='inputmodal'>Enter Product:{" "}
-          <select value={select} 
-                  onChange={(e) => setSelect(e.target.value)} >
+          <select value={select} onChange={(e) => setSelect(e.target.value)} >
           {product.map((product) => (
             <option key={product.id}
                     value={product.id}

@@ -20,6 +20,20 @@ const Tablelist = ({
   lastName,
   setFirstName,
   setLastName,
+  newEfund,
+  setNewEfund,
+  outBalance,
+  setOutBalance,
+  address,
+  setAddress,
+  area,
+  setArea,
+  contact,
+  setContact,
+  supervisor,
+  setSupervisor,
+  recStartDate,
+  setRecStartDate
 }) => {
   
   const data = useMemo(() => 
@@ -29,14 +43,14 @@ const Tablelist = ({
 
   const columns = useMemo(
     () => [
-      {Header: "Last Name",
-       accessor: "lname",},
-      {Header: "First Name",
-       accessor: "fname",},
-      {Header: "Total Sales",
-       accessor: "total_sales",},
-      {Header: "Total Efund",
-       accessor: "Efund",},
+      {Header: "Name",
+       accessor: d => `${d.fname} ${d.lname}`},
+      {Header: "Contact #",
+       accessor: "contactNo",},
+      {Header: "Area",
+       accessor: "area",},
+      {Header: "Supervisor",
+       accessor: "supervisor",},
       {Header: "Action",
        accessor: "action",
        disableSortBy: true},
@@ -107,6 +121,20 @@ const Tablelist = ({
         modalLastName={lastName}
         setModalFirstName={setFirstName}
         setModalLastName={setLastName}
+        newEfund={newEfund}
+        setNewEfund={setNewEfund}
+        outBalance={outBalance}
+        setOutBalance={setOutBalance}
+        address={address}
+        setAddress={setAddress}
+        area={area}
+        setArea={setArea}
+        contact={contact}
+        setContact={setContact}
+        supervisor={supervisor}
+        setSupervisor={setSupervisor}
+        recStartDate={recStartDate}
+        setRecStartDate={setRecStartDate}
         id={currentId}
       />
     </div>

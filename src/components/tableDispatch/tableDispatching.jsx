@@ -28,7 +28,7 @@ const { getTableProps,
         state: {pageIndex, pageSize}
             } = useTable({columns,
                           data,
-                          defaultColumn: { Filter: DefaultColumnFilter },
+                          defaultColumn: { Filter: DefaultColumnFilter }, 
                           initialState: { pageIndex: 0, 
                                           pageSize: 10,
                                           sortBy: [{ id: 'date',
