@@ -15,7 +15,7 @@ const Employees = () => {
   const [outBalance, setOutBalance] = useState(0);
   const [address, setAddress] = useState("");
   const [contact, setContact] = useState("");
-  const [recStartDate , setRecStartDate ] = useState(new Date());
+  const [recStartDate , setRecStartDate ] = useState(null);
 
   const [area, setArea] = useState([]);
   const [selectArea, setSelectArea] = useState("");

@@ -1,4 +1,4 @@
-import React, {useCallback, useState, useEffect} from 'react'
+import React, {useCallback, useEffect} from 'react'
 import commSellerDataService from '../../services/firebase.services'
 import areaDataService,
        {areaCollectionRef} from '../../services/area.services'
@@ -57,7 +57,8 @@ const ModalAdd = ({
           Address: address,
           contactNo: contact,
           outBalance: outBalance,
-          supervisor: supervisorSnap.data().firstName,
+          supervisor: (`${supervisorSnap.data().firstName} 
+                        ${supervisorSnap.data().lastName}`),
           area: areaSnap.data().location,
           efund: newEfund,
         });
@@ -146,6 +147,7 @@ const ModalAdd = ({
               selected={recStartDate}
               onChange={(date) => setRecStartDate(date)}
               dateFormat="MM/dd/yyyy" 
+              placeholderText='Enter Date'
               /> 
           </label>
 

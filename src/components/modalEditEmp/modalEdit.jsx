@@ -32,12 +32,11 @@ const ModalEdit = ({
   selectSupervisor,
   setSelectSupervisor,
   id,
-  recStartDate,
-  setRecStartDate,
 }) => {
 
   const [commArea, setCommArea] = useState("")
   const [commSuper, setCommSuper] = useState("")
+  const [date, setDate] = useState("")
   
   
 
@@ -54,7 +53,7 @@ const ModalEdit = ({
         setCommArea(docSnap.data().area);
         setContact(docSnap.data().contactNo);
         setCommSuper(docSnap.data().supervisor);
-        setRecStartDate(docSnap.data().birthDate);
+        setDate(docSnap.data().birthDate.toDate());
       } catch (err) {
         alert(err.message);
       }
@@ -68,7 +67,7 @@ const ModalEdit = ({
       setCommArea, 
       setContact, 
       setCommSuper, 
-      setRecStartDate
+      setDate
     ]
   );
 
@@ -83,7 +82,7 @@ const ModalEdit = ({
       area: commArea,
       contactNo: contact,
       supervisor: commSuper,
-      birthDate: recStartDate,
+      birthDate: date,
     });
     alert("Updated Successfully");
     action1();
@@ -173,8 +172,8 @@ const ModalEdit = ({
 
           <label className='inputmodalAdd'>Birth Date:{" "}
           <DatePicker 
-              selected={recStartDate}
-              onChange={(date) => setRecStartDate(date)}
+              selected={date}
+              onChange={(date) => setDate(date)}
               dateFormat="MM/dd/yyyy" 
               /> 
           </label>
@@ -200,7 +199,7 @@ const ModalEdit = ({
           <label className='inputmodalAdd'>Area:{" "}
             <select value={commArea} onChange={(e) => setCommArea(e.target.value)}>
               {area.map((area) => (
-                <option key={area.id} value={area.id}>
+                <option key={area.id} value={area.location}>
                     {area.location}
                 </option>
               ))}
@@ -210,7 +209,7 @@ const ModalEdit = ({
           <label className='inputmodalAdd'>Supervisor:{" "}
             <select value={commSuper} onChange={(e) => setCommSuper(e.target.value)}>
                 {supervisor.map((supervisor) => (
-                  <option key={supervisor.id} value={supervisor.id}>
+                  <option key={supervisor.id} value={`${supervisor.firstName} ${supervisor.lastName}`}>
                       {`${supervisor.firstName} ${supervisor.lastName}`}
                   </option>
                 ))}
