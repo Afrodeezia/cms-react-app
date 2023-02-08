@@ -32,11 +32,13 @@ const ModalEdit = ({
   selectSupervisor,
   setSelectSupervisor,
   id,
+  recStartDate,
+  setRecStartDate,
 }) => {
 
   const [commArea, setCommArea] = useState("")
   const [commSuper, setCommSuper] = useState("")
-  const [recStartDate , setRecStartDate ] = useState("");
+  
   
 
   const handlePopulate = useCallback(
@@ -94,7 +96,6 @@ const ModalEdit = ({
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
           let areaArr = [];
           querySnapshot.forEach((doc) => {
-            setSelectArea(doc.id)
             areaArr.push({...doc.data(), id: doc.id});
           });
           setArea(areaArr)
@@ -104,7 +105,7 @@ const ModalEdit = ({
         alert(err.message);
       }
     },
-    [setArea, setSelectArea]
+    [setArea]
   );
 
   const handleSupervisorSnap = useCallback(
@@ -114,7 +115,6 @@ const ModalEdit = ({
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
           let supervisorArr = [];
           querySnapshot.forEach((doc) => {
-            setSelectSupervisor(doc.id)
             supervisorArr.push({...doc.data(), id: doc.id});
           });
           setSupervisor(supervisorArr)
@@ -124,7 +124,7 @@ const ModalEdit = ({
         alert(err.message);
       }
     },
-    [setSupervisor, setSelectSupervisor]
+    [setSupervisor]
   );
 
   useEffect(() => {

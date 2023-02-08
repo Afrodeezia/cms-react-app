@@ -33,7 +33,7 @@ const ModalAdd = ({
               selectArea,
               setSelectArea,
               selectSupervisor,
-              setSelectSupervisor             
+              setSelectSupervisor,            
                   }) => {    
                     
 
