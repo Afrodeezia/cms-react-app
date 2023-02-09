@@ -1,12 +1,23 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useState} from 'react';
 
 import './tableListDispatching.scss'
 
 import TableDispatching from '../tableDispatch/tableDispatching';
+import ModalEditDispatch from '../modalEditDispatch/modalEditDispatch';
 import { DateRangeColumnFilter, dateBetweenFilterFn} from '../../services/react-table.services'
 
 
-const TableListDispatching = ({dispatch, setDispatch,}) => {
+const TableListDispatching = ({dispatch, 
+                              setDispatch,
+                              seller,
+                              setSeller,
+                              product,
+                              setProduct,
+                              dispatchQty,
+                              setDispatchQty,
+                              editDate,
+                              setEditDate,
+                            }) => {
 
     const data = useMemo(() => 
                   [...dispatch],
@@ -19,7 +30,8 @@ const TableListDispatching = ({dispatch, setDispatch,}) => {
           {
             year:'numeric',
             month:'numeric',
-            day:'numeric'}),
+            day:'numeric'
+            }),
           Filter: DateRangeColumnFilter,
           filter: dateBetweenFilterFn},
         {Header: 'Name',
@@ -27,9 +39,33 @@ const TableListDispatching = ({dispatch, setDispatch,}) => {
         {Header: 'Product',
         accessor: 'product'},
         {Header: 'Quantity',
-        accessor: 'dispatchQty'}
+        accessor: 'dispatchQty'},
+        {Header: 'Action',
+        accessor: 'action',
+        disableSortBy: true}
     ], []
     );
+
+    const [modalEditState, 
+      setModalEditState
+     ] = useState(false);
+const [currentId, 
+      setCurrentId
+     ] = useState("");
+
+function openEditModal(id) {
+ setModalEditState(!modalEditState);
+ setCurrentId(id);
+}
+
+function closeEditModal(e) {
+ e.preventDefault();
+ setModalEditState(!modalEditState);
+}
+
+function submitEditModal() {
+ setModalEditState(!modalEditState);
+}
 
     
   return (
@@ -38,7 +74,24 @@ const TableListDispatching = ({dispatch, setDispatch,}) => {
         columns={columns}
         data={data}
         setDispatch={setDispatch}
+        open={openEditModal}
         />
+      <ModalEditDispatch 
+        toggle={modalEditState}
+        close={closeEditModal}
+        afterSubmit={submitEditModal}
+        dispatch={dispatch}
+        setDispatch={setDispatch}
+        seller={seller}
+        setSeller={setSeller}
+        product={product}
+        setProduct={setProduct}
+        dispatchQty={dispatchQty}
+        setDispatchQty={setDispatchQty}
+        editDate={editDate}
+        setEditDate={setEditDate}
+        id={currentId}
+      />
     </div>
   )
 }

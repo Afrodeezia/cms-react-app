@@ -50,10 +50,6 @@ const Employees = () => {
           setContact={setContact}
           supervisor={supervisor}
           setSupervisor={setSupervisor}
-          selectArea={selectArea}
-          setSelectArea={setSelectArea}
-          selectSupervisor={selectSupervisor}
-          setSelectSupervisor={setSelectSupervisor}
           />
 
         <ModalAdd 

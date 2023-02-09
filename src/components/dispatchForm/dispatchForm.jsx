@@ -77,8 +77,12 @@ const DispatchForm = ({
     await productDataService.updateProduct(selectProduct, {
       productQty: increment(-dispatchQty)
     })
+    await commSellerDataService.updateCommSeller(selectSeller, {
+      outBalance: increment(dispatchQty*productSnap.data().productVal),
+      efund: increment(dispatchQty*productSnap.data().productVal*productSnap.data().efundVal)
+    })
     dispatchDataService.addDispatch(
-      {seller: sellerSnap.data().lname,
+      {seller: (`${sellerSnap.data().fname} ${sellerSnap.data().lname}`),
       product: productSnap.data().productName,
       dispatchQty: dispatchQty,
       date: recStartDate
@@ -101,9 +105,8 @@ const DispatchForm = ({
           <DatePicker
             selected={recStartDate}
             onChange={(date) => setRecStartDate(date)} 
-            timeInputLabel="Time:"
-            dateFormat="MM/dd/yyyy h:mm aa"
-            showTimeInput
+            dateFormat="MM/dd/yyyy"
+            
               />
         </label>
 
@@ -114,7 +117,7 @@ const DispatchForm = ({
             <option key={seller.id}
                     value={seller.id}
                     >
-              {seller.lname}
+              {`${seller.fname} ${seller.lname}`}
             </option>
           ))}
         </select>

@@ -32,8 +32,6 @@ const Tablelist = ({
   setContact,
   supervisor,
   setSupervisor,
-  recStartDate,
-  setRecStartDate
 }) => {
   
   const data = useMemo(() => 
@@ -133,8 +131,6 @@ const Tablelist = ({
         setContact={setContact}
         supervisor={supervisor}
         setSupervisor={setSupervisor}
-        recStartDate={recStartDate}
-        setRecStartDate={setRecStartDate}
         id={currentId}
       />
     </div>

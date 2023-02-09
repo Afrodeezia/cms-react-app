@@ -27,10 +27,6 @@ const ModalEdit = ({
   setContact,
   supervisor,
   setSupervisor,
-  selectArea,
-  setSelectArea,
-  selectSupervisor,
-  setSelectSupervisor,
   id,
 }) => {
 

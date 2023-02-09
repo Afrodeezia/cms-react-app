@@ -6,10 +6,19 @@ import {  useTable,
           usePagination, 
           useSortBy} from 'react-table'
 import { Filter, DefaultColumnFilter } from '../../services/react-table.services'
-import {dispatchCollectionRef} from '../../services/dispatch.services'
+import dispatchDataService, {dispatchCollectionRef} from '../../services/dispatch.services'
 
 
-const TableDispatching = ({data, columns, setDispatch, renderRowSubComponent}) => {
+const TableDispatching = ({data, 
+                          columns, 
+                          setDispatch, 
+                          renderRowSubComponent,
+                          open,
+                          }) => {
+
+const deleteHandler = async (id) => {
+    await dispatchDataService.deleteDispatch(id)
+  };
 
 const { getTableProps,
         getTableBodyProps,
@@ -100,6 +109,20 @@ const { getTableProps,
             <Fragment key={row.getRowProps().key}>
             <tr>
                {row.cells.map((cell) => {
+                if (cell.column.Header === "Action") {
+                    return (
+                      <td {...cell.getCellProps()}>
+                        <button onClick={() => 
+                            open(cell.row.original.id)}>
+                          update
+                        </button>
+                        <button onClick={() => 
+                            deleteHandler(cell.row.original.id)}>
+                          delete
+                        </button>
+                      </td>
+                    );
+                  }
                  return (
                    <td
                      {...cell.getCellProps()}

@@ -2,6 +2,8 @@ import React, {useState} from 'react'
 import DispatchForm from '../../components/dispatchForm/dispatchForm';
 import TableListDispatching from '../../components/tableListDispatch/tableListDispatching';
 
+import './dispatch.scss'
+
 const Dispatch = () => {
 
   const [dispatch, setDispatch] = useState([]);
@@ -11,12 +13,13 @@ const Dispatch = () => {
   const [selectProduct, setSelectProduct] = useState("");
   const [dispatchQty, setDispatchQty] = useState(0);
   const [recStartDate, setRecStartDate] = useState(new Date());
+  const [editDate, setEditDate] = useState("")
  
 
 
   
   return (
-    <div>
+    <div className='dispatch'>
       <DispatchForm 
         seller={seller}
         setSeller={setSeller}
@@ -40,6 +43,8 @@ const Dispatch = () => {
         setProduct={setProduct}
         dispatchQty={dispatchQty}
         setDispatchQty={setDispatchQty}
+        editDate={editDate}
+        setEditDate={setEditDate}
            />
     </div>
   )
