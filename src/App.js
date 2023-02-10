@@ -20,6 +20,7 @@ import Register from './components/register/register';
 import VerifyEmail from './pages/verifyEmail/verifyEmail';
 import ProtectedRoute from './components/ProtectedRoute';
 import Dispatch from './pages/dispatch/dispatch';
+import Remittance from './pages/remittance/remittance';
 
 
 function App() {
@@ -66,6 +67,10 @@ function App() {
       <Route path='/verifyEmail' 
               element={<ProtectedRoute>
                         <VerifyEmail />
+                        </ProtectedRoute>} />
+        <Route path='/remit' 
+              element={<ProtectedRoute>
+                        <Remittance />
                         </ProtectedRoute>} />
       {/*<Route path='*' element={<Error />} />*/}
       </Routes>

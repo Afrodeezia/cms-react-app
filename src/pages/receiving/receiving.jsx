@@ -173,7 +173,9 @@ const Receiving = ({renderRowSubComponent}) => {
       <div style={{ 
                 maxWidth: 1000, 
                 margin: "0 auto", 
-                textAlign: "center" 
+                textAlign: "center", 
+                display: 'flex',
+                justifyContent: 'center' 
                 }}>
           <div md={3}>
             <button 

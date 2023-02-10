@@ -1,0 +1,51 @@
+import React, {useState} from 'react'
+import './remittance.scss'
+
+import TablelistRemit from '../../components/tablelistRemit/tablelistRemit'
+import TablelistRemitLog from '../../components/tablelistRemitLog/tablelistRemitLog'
+
+const Remittance = () => {
+
+  const [remit, setRemit] = useState([]);
+  const [seller, setSeller] = useState("");
+  const [outBalance, setOutBalance] = useState(0);
+  const [efund, setEfund] = useState(0);
+
+  const [remitLog, setRemitLog] = useState([]);
+  const [date, setDate] = useState(new Date());
+  const [editDate, setEditDate] = useState("");
+  const [pay, setPay] = useState(0);
+  const [bank, setBank] = useState("");
+  const [balance, setBalance] = useState(0);
+
+  return (
+    <div className='receiving'>
+      <TablelistRemit
+        remit={remit}
+        setRemit={setRemit}
+        seller={seller}
+        setSeller={setSeller}
+        outBalance={outBalance}
+        setOutBalance={setOutBalance}
+        efund={efund}
+        setEfund={setEfund}
+         />
+      <TablelistRemitLog 
+        remitLog={remitLog}
+        setRemitLog={setRemitLog}
+        date={date}
+        setDate={setDate}
+        editDate={editDate}
+        setEditDate={setEditDate}
+        pay={pay}
+        setPay={setPay}
+        bank={bank}
+        setBank={setBank}
+        balance={balance}
+        setBalance={setBalance}
+      />
+    </div>
+  )
+}
+
+export default Remittance
