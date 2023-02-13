@@ -1,7 +1,9 @@
 import React, {useEffect} from 'react'
 import { onSnapshot, query } from "firebase/firestore";
 import remitDataService, {remitCollectionRef} from '../../services/remit.services'
+import { commSellerCollectionRef } from '../../services/firebase.services';
 import './tableRemit.scss'
+
 
 const TableRemit = ({
                     open,
@@ -13,12 +15,10 @@ const TableRemit = ({
                     prepareRow
                       }) => {
 
-const deleteHandler = async (id) => {
-  await remitDataService.deleteRemit(id)
-};
+
 
 useEffect(() => {
-  const q = query(remitCollectionRef);
+  const q = query(commSellerCollectionRef);
   const unsubscribe = onSnapshot(q, (querySnapshot) => {
     let remitArr = [];
     querySnapshot.forEach((doc) => {
@@ -65,11 +65,10 @@ const firstPageRows = rows.slice(0, 10);
                       <td {...cell.getCellProps()}>
                         <button onClick={() => 
                             open(cell.row.original.id)}>
-                          update
+                          Remit
                         </button>
-                        <button onClick={() => 
-                            deleteHandler(cell.row.original.id)}>
-                          delete
+                        <button >
+                          View
                         </button>
                       </td>
                     );

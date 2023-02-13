@@ -110,7 +110,7 @@ const Tablelist = ({
         headerGroups={headerGroups}
         rows={rows}
         prepareRow={prepareRow} 
-      />
+      />     
       <ModalEdit
         toggle={modalEditState}
         action={closeEditModal}

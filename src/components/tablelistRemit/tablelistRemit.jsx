@@ -5,24 +5,27 @@ import { useTable, useGlobalFilter, useSortBy,} from 'react-table'
 
 import FilterRemit from '../filterRemit/filterRemit'
 import TableRemit from '../tableRemit/tableRemit'
+import ModalRemit from '../modalRemit/modalRemit'
 
 const TablelistRemit = ({
-                    remit,
-                    setRemit,
-                    seller,
-                    setSeller,
-                    outBalance,
-                    setOutBalance,
-                    efund,
-                    setEfund,
+                    remit, setRemit,
+                    firstName, setFirstName,
+                    lastName, setLastName,
+                    outBalance, setOutBalance,
+                    efund, setEfund,
+                    pay, setPay,
+                    bank, setBank,
+                    date, setDate,
+                    paymentMode, setPaymentMode,
+                    efundDeduct, setEfundDeduct
                   }) => {
 
 const data = useMemo(() => [...remit], [remit]);
 
 const columns = useMemo(() => [
-  {Header: "Name", accessor: 'name'},
+  {Header: "Name", accessor: d => `${d.fname} ${d.lname}`},
   {Header: 'Total Balance', accessor: 'outBalance'},
-  {Header: 'Efund', accessor: 'eFund'},
+  {Header: 'Efund', accessor: 'efund'},
   {Header: 'Action', accessor: 'action'}
 ], []);
 
@@ -37,21 +40,21 @@ const {
   setGlobalFilter,
       } = useTable({columns, data}, useGlobalFilter, useSortBy)
 
-const [modalEditState, setModalEditState] = useState(false);
+const [modalRemitState, setModalRemitState] = useState(false);
 const [currentId, setCurrentId] = useState("");
 
-function openEditModal(id) {
-   setModalEditState(!modalEditState);
+function openRemitModal(id) {
+   setModalRemitState(!modalRemitState);
    setCurrentId(id);
  }
 
-function closeEditModal(e) {
+function closeRemitModal(e) {
    e.preventDefault();
-   setModalEditState(!modalEditState);
+   setModalRemitState(!modalRemitState);
  }
 
-function submitEditModal() {
-   setModalEditState(!modalEditState);
+function submitRemitModal() {
+   setModalRemitState(!modalRemitState);
  }
 
   return (
@@ -64,7 +67,7 @@ function submitEditModal() {
     <TableRemit
       columns={columns}
         data={data}
-        open={openEditModal}
+        open={openRemitModal}
         setRemit={setRemit}
         getTableProps={getTableProps}
         getTableBodyProps={getTableBodyProps}
@@ -72,6 +75,21 @@ function submitEditModal() {
         rows={rows}
         prepareRow={prepareRow}
         />
+    <ModalRemit 
+      toggle={modalRemitState}
+      close={closeRemitModal}
+      submit={submitRemitModal}
+      firstName={firstName} setFirstName={setFirstName}
+      lastName={lastName} setLastName={setLastName}
+      outBalance={outBalance} setOutBalance={setOutBalance}
+      efund={efund} setEfund={setEfund}
+      pay={pay} setPay={setPay}
+      bank={bank} setBank={setBank}
+      date={date} setDate={setDate}
+      paymentMode={paymentMode} setPaymentMode={setPaymentMode}
+      efundDeduct={efundDeduct} setEfundDeduct={setEfundDeduct}
+      id={currentId}
+    />
     </div>
   )
 }
