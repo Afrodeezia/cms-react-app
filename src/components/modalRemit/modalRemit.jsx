@@ -72,7 +72,7 @@ const handleSubmit = async (e) => {
     });
     
     await commSellerDataService.updateCommSeller(id, {
-      outBalance: increment( - (pay + efundDeduct)),
+      outBalance: increment( - pay - efundDeduct),
       efund: increment(-efundDeduct)
     })
   } catch (err) {
