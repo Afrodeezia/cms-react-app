@@ -30,10 +30,12 @@ const columns = useMemo(() => [
   {id: 'date', Header: 'Date', accessor: e => e.date.toDate().toLocaleDateString(
     {year: 'numeric', month: 'numeric', day: 'numeric'}),
     Filter: DateRangeColumnFilter, filter: dateBetweenFilterFn},
-  {Header: 'Name', accessor: 'name'},
+  {Header: 'Name', accessor: 'seller'},
   {Header: 'Remittance', accessor: 'remit'},
-  {Header: 'Bank', accessor: 'mode'},
-  {Header: 'Balance', accessor: 'balance'},
+  {Header: 'Bank', accessor: 'paymentMode'},
+  {Header: 'Efund Deduct', accessor: 'efundDeduct'},
+  {Header: 'Balance', accessor: 'outBalance'},
+  {Header: 'total Efund', accessor: 'totalEfund'}
 ], []);
   return (
     <div>

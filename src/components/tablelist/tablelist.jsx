@@ -2,13 +2,11 @@ import React, {
                 useState, 
                 useMemo 
               } from "react";
-import { useTable,
-         useGlobalFilter,
-         useSortBy,
-          } from 'react-table'
+
 import ModalEdit from "../modalEditEmp/modalEdit";
 import TableComm from "../tableComm/TableComm";
-import FilterComm from "../filterComm/FilterComm";
+
+import { SelectColumnFilter, } from "../../services/react-table.services";
 
 
 import "./tablelist.scss";
@@ -32,6 +30,8 @@ const Tablelist = ({
   setContact,
   supervisor,
   setSupervisor,
+  sellerType,
+  setSellerType,
 }) => {
   
   const data = useMemo(() => 
@@ -43,33 +43,26 @@ const Tablelist = ({
     () => [
       {Header: "Name",
        accessor: d => `${d.fname} ${d.lname}`},
+       {Header: "Type",
+       accessor: "type",
+       Filter: SelectColumnFilter,
+       filter: 'includes',},
       {Header: "Contact #",
-       accessor: "contactNo",},
+       accessor: "contactNo",
+       disableFilters: true},
       {Header: "Area",
-       accessor: "area",},
+       accessor: "area",
+       disableFilters: true},
       {Header: "Supervisor",
-       accessor: "supervisor",},
+       accessor: "supervisor",
+       disableFilters: true},
       {Header: "Action",
        accessor: "action",
-       disableSortBy: true},
+       disableSortBy: true,
+       disableFilters: true},
     ],
     []
   );
-
-  const { getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-    state,
-    preGlobalFilteredRows,
-    setGlobalFilter, 
-  } = useTable({ columns, 
-                 data, 
-                },
-                 useGlobalFilter,
-                 useSortBy,
-              )
 
 
   const [modalEditState, 
@@ -95,21 +88,12 @@ const Tablelist = ({
 
   return (
     <div className="cardlist-container">
-      <FilterComm
-        preGlobalFilteredRows={preGlobalFilteredRows}
-        setGlobalFilter={setGlobalFilter} 
-        globalFilter={state.globalFilter}
-      />
+      
       <TableComm 
         columns={columns}
         data={data}
         action={openEditModal}
         setCommSellerTable={setCommSellerTable}
-        getTableProps={getTableProps}
-        getTableBodyProps={getTableBodyProps}
-        headerGroups={headerGroups}
-        rows={rows}
-        prepareRow={prepareRow} 
       />     
       <ModalEdit
         toggle={modalEditState}
@@ -131,6 +115,8 @@ const Tablelist = ({
         setContact={setContact}
         supervisor={supervisor}
         setSupervisor={setSupervisor}
+        sellerType={sellerType}
+        setSellerType={setSellerType}
         id={currentId}
       />
     </div>

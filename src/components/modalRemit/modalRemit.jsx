@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { increment, onSnapshot, query,} from 'firebase/firestore'
 import commSellerDataService from '../../services/firebase.services'
 import paymentModeDataService, { paymentModeCollectionRef } from '../../services/paymentMode.services';
+import remitDataService from '../../services/remit.services'
 
 const ModalRemit = ({
             toggle,
@@ -61,7 +62,7 @@ const handleSubmit = async (e) => {
   e.preventDefault()
   try {
     const paymentModeSnap = await paymentModeDataService.getAllPaymentMode(bank)
-    await paymentModeDataService.addPaymentMode({
+    await remitDataService.addRemit({
       seller: (`${firstName} ${lastName}`),
       outBalance: outBalance,
       totalEfund: efund,

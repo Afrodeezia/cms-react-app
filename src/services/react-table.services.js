@@ -46,7 +46,7 @@ export const SelectColumnFilter = ({
         setFilter(e.target.value || undefined);
       }}
     >
-      <option value="">Todos</option>
+      <option value="">All</option>
       {options.map((option) => (
         <option key={option} value={option}>
           {option}

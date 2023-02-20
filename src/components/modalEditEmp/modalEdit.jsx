@@ -3,6 +3,7 @@ import "./modalEdit.scss";
 import commSellerDataService from "../../services/firebase.services";
 import { areaCollectionRef } from "../../services/area.services";
 import { supervisorCollectionRef } from "../../services/supervisor.services";
+import { sellerTypeCollectionRef } from "../../services/sellerType.services";
 import { onSnapshot, query,} from 'firebase/firestore'
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
@@ -27,11 +28,14 @@ const ModalEdit = ({
   setContact,
   supervisor,
   setSupervisor,
+  sellerType,
+  setSellerType,
   id,
 }) => {
 
   const [commArea, setCommArea] = useState("")
   const [commSuper, setCommSuper] = useState("")
+  const [type, setType] = useState("")
   const [date, setDate] = useState("")
   
   
@@ -50,6 +54,7 @@ const ModalEdit = ({
         setContact(docSnap.data().contactNo);
         setCommSuper(docSnap.data().supervisor);
         setDate(docSnap.data().birthDate.toDate());
+        setType(docSnap.data().type);
       } catch (err) {
         alert(err.message);
       }
@@ -63,7 +68,8 @@ const ModalEdit = ({
       setCommArea, 
       setContact, 
       setCommSuper, 
-      setDate
+      setDate,
+      setType,
     ]
   );
 
@@ -79,6 +85,7 @@ const ModalEdit = ({
       contactNo: contact,
       supervisor: commSuper,
       birthDate: date,
+      type: type,
     });
     alert("Updated Successfully");
     action1();
@@ -122,13 +129,33 @@ const ModalEdit = ({
     [setSupervisor]
   );
 
+  const handleSellerTypeSnap = useCallback(
+    async () => {
+      try {
+          const q = query(sellerTypeCollectionRef);
+          const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            let typeArr = [];
+            querySnapshot.forEach((doc) => {
+              typeArr.push({...doc.data(), id: doc.id});
+            });
+            setSellerType(typeArr)
+          });
+          return () => unsubscribe();
+      } catch (err) {
+        alert(err.message)
+      }
+    },
+    [setSellerType]
+  )
+
   useEffect(() => {
     if (id !== undefined && id !== "") {
       handlePopulate();
       handleAreaSnap();
       handleSupervisorSnap();
+      handleSellerTypeSnap();
     }
-  }, [id, handlePopulate, handleAreaSnap, handleSupervisorSnap]);
+  }, [id, handlePopulate, handleAreaSnap, handleSupervisorSnap, handleSellerTypeSnap]);
 
   
 
@@ -190,6 +217,16 @@ const ModalEdit = ({
               type="text"
               size='12'
                />    
+          </label>
+
+          <label className='inputmodalAdd'>Type:{" "}
+            <select value={type} onChange={(e) => setType(e.target.value)}>
+              {sellerType.map((area) => (
+                <option key={area.id} value={area.type}>
+                    {area.type}
+                </option>
+              ))}
+            </select>
           </label>
 
           <label className='inputmodalAdd'>Area:{" "}

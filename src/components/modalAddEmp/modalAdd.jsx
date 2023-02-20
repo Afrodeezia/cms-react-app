@@ -4,11 +4,14 @@ import areaDataService,
        {areaCollectionRef} from '../../services/area.services'
 import supervisorDataService, 
       { supervisorCollectionRef } from '../../services/supervisor.services'
+import sellerTypeDataService, 
+      {sellerTypeCollectionRef} from '../../services/sellerType.services'
 import { onSnapshot, query,} from 'firebase/firestore'
 import './modalAdd.scss'
 
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
+import { async } from '@firebase/util'
 
 
 const ModalAdd = ({
@@ -33,8 +36,12 @@ const ModalAdd = ({
               selectArea,
               setSelectArea,
               selectSupervisor,
-              setSelectSupervisor,            
-                  }) => {    
+              setSelectSupervisor,
+              sellerType,
+              setSellerType,
+              selectSellerType,
+              setSelectSellerType            
+                      }) => {    
                     
 
   const handleAdd = async (e) => {
@@ -50,6 +57,7 @@ const ModalAdd = ({
     try {
       const areaSnap = await areaDataService.getAllArea(selectArea)
       const supervisorSnap = await supervisorDataService.getAllSupervisor(selectSupervisor)
+      const sellerTypeSnap = await sellerTypeDataService.getAllSellerType(selectSellerType)
       await commSellerDataService.addCommSeller(
         { fname: firstName, 
           lname: lastName,
@@ -60,6 +68,7 @@ const ModalAdd = ({
           supervisor: (`${supervisorSnap.data().firstName} 
                         ${supervisorSnap.data().lastName}`),
           area: areaSnap.data().location,
+          type: sellerTypeSnap.data().type,
           efund: newEfund,
         });
         alert("added successfully"); 
@@ -110,12 +119,33 @@ const ModalAdd = ({
     [setSupervisor, setSelectSupervisor]
   );
 
+  const handleSellerTypeSnap = useCallback(
+    async () => {
+      try {
+        const q = query(sellerTypeCollectionRef);
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          let typeArr = [];
+          querySnapshot.forEach((doc) => {
+            setSelectSellerType(doc.id)
+            typeArr.push({...doc.data(), id: doc.id});
+          });
+          setSellerType(typeArr)
+        });
+        return () => unsubscribe();
+      } catch (err) {
+        alert(err.message)
+      }
+    },
+    [setSellerType, setSelectSellerType]
+  );
+
 
 
   useEffect(() => {
       handleAreaSnap();
       handleSupervisorSnap();
-  }, [handleAreaSnap, handleSupervisorSnap]);
+      handleSellerTypeSnap();
+  }, [handleAreaSnap, handleSupervisorSnap, handleSellerTypeSnap]);
     
   
 
@@ -165,6 +195,16 @@ const ModalAdd = ({
               type="text"
               size='12'
                />    
+          </label>
+
+          <label className='inputmodalAdd'>Type:{" "}
+            <select value={selectSellerType} onChange={(e) => setSelectSellerType(e.target.value)}>
+              {sellerType.map((area) => (
+                <option key={area.id} value={area.id}>
+                    {area.type}
+                </option>
+              ))}
+            </select>
           </label>
           
           <label className='inputmodalAdd'>Area:{" "}

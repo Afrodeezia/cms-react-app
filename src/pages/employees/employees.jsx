@@ -23,6 +23,8 @@ const Employees = () => {
   const [supervisor, setSupervisor] = useState([])
   const [selectSupervisor, setSelectSupervisor] = useState("");
   
+  const [sellerType, setSellerType] = useState([])
+  const [selectSellerType, setSelectSellerType] = useState("")
   function openCreateModal() {
     setModalCreateState(!modalCreateState)
   }
@@ -50,6 +52,8 @@ const Employees = () => {
           setContact={setContact}
           supervisor={supervisor}
           setSupervisor={setSupervisor}
+          sellerType={sellerType}
+          setSellerType={setSellerType}
           />
 
         <ModalAdd 
@@ -77,6 +81,10 @@ const Employees = () => {
           setSelectArea={setSelectArea}
           selectSupervisor={selectSupervisor}
           setSelectSupervisor={setSelectSupervisor}
+          sellerType={sellerType}
+          setSellerType={setSellerType}
+          selectSellerType={selectSellerType}
+          setSelectSellerType={setSelectSellerType}
             />
     </div>
   )

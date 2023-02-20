@@ -6,7 +6,7 @@ import {  useTable,
   usePagination, 
   useSortBy} from 'react-table'
 import { Filter, DefaultColumnFilter } from '../../services/react-table.services'
-import remitLogDataService, {remitLogCollectionRef} from '../../services/remitLog.services'
+import {remitCollectionRef} from '../../services/remit.services'
 import './tableRemitLog.scss'
 
 const TableRemitLog = ({data, columns, setRemitLog, renderRowSubComponent}) => {
@@ -54,7 +54,7 @@ const TableRemitLog = ({data, columns, setRemitLog, renderRowSubComponent}) => {
   };
 
   useEffect(() => {
-    const q = query(remitLogCollectionRef);
+    const q = query(remitCollectionRef);
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       let remitLogArr = [];
       querySnapshot.forEach((doc) => {

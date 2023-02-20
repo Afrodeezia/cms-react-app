@@ -43,7 +43,8 @@ const Receiving = ({renderRowSubComponent}) => {
         {Header: 'Quantity',
         accessor: 'quantity'},
         {Header: "Action",
-        accessor: 'action'}
+        accessor: 'action',
+        disableFilters: true}
       ],
       []);
 
