@@ -77,10 +77,17 @@ const DispatchForm = ({
     await productDataService.updateProduct(selectProduct, {
       productQty: increment(-dispatchQty)
     })
+
+    if (sellerSnap.data().type === 'IBP') {
     await commSellerDataService.updateCommSeller(selectSeller, {
       outBalance: increment(dispatchQty*productSnap.data().productVal),
       efund: increment(dispatchQty*productSnap.data().productVal*productSnap.data().efundVal)
     })
+      } else {
+        await commSellerDataService.updateCommSeller(selectSeller, {
+          outBalance: increment(dispatchQty*productSnap.data().productVal),
+        })   
+      }
     dispatchDataService.addDispatch(
       {seller: (`${sellerSnap.data().fname} ${sellerSnap.data().lname}`),
       product: productSnap.data().productName,

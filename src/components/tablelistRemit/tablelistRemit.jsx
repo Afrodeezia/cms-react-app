@@ -17,7 +17,8 @@ const TablelistRemit = ({
                     bank, setBank,
                     date, setDate,
                     paymentMode, setPaymentMode,
-                    efundDeduct, setEfundDeduct
+                    efundDeduct, setEfundDeduct,
+                    type, setType
                   }) => {
 
 const data = useMemo(() => [...remit], [remit]);
@@ -88,6 +89,7 @@ function submitRemitModal() {
       date={date} setDate={setDate}
       paymentMode={paymentMode} setPaymentMode={setPaymentMode}
       efundDeduct={efundDeduct} setEfundDeduct={setEfundDeduct}
+      type={type} setType={setType}
       id={currentId}
     />
     </div>

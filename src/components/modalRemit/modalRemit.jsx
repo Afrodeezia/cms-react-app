@@ -20,6 +20,7 @@ const ModalRemit = ({
             date, setDate,
             paymentMode, setPaymentMode,
             efundDeduct, setEfundDeduct,
+            type, setType,
             id,
             }) => {
 
@@ -32,11 +33,12 @@ const handlePopulate = useCallback(
       setLastName(sellerSnap.data().lname);
       setOutBalance(sellerSnap.data().outBalance);
       setEfund(sellerSnap.data().efund);
+      setType(sellerSnap.data().type);
       
     } catch (err) {
       alert(err.message)
     }
-  }, [id, setFirstName, setLastName, setOutBalance, setEfund, ]
+  }, [id, setFirstName, setLastName, setOutBalance, setEfund, setType ]
 )
 
 const handlePaymentModeSnap = useCallback(
@@ -64,6 +66,7 @@ const handleSubmit = async (e) => {
     const paymentModeSnap = await paymentModeDataService.getAllPaymentMode(bank)
     await remitDataService.addRemit({
       seller: (`${firstName} ${lastName}`),
+      type: type,
       outBalance: outBalance,
       totalEfund: efund,
       remit: pay,
@@ -71,11 +74,17 @@ const handleSubmit = async (e) => {
       paymentMode: paymentModeSnap.data().paymentMode,
       date: date
     });
-    
+      if (type === 'IBP') {
     await commSellerDataService.updateCommSeller(id, {
       outBalance: increment( - pay - efundDeduct),
       efund: increment(-efundDeduct)
-    })
+    }) 
+      } else {
+        await commSellerDataService.updateCommSeller(id, {
+          outBalance: increment(-pay),
+      
+        }) 
+    }
   } catch (err) {
     alert("Remittance Successful")
     e.target.reset();
@@ -98,6 +107,10 @@ useEffect(() => {
 
             <label className='inputmodalAdd'>
               Name: {`${firstName} ${lastName}`}
+            </label>
+
+            <label className='inputmodalAdd'>
+              Type: {type}
             </label>
 
             <label className='inputmodalAdd'>

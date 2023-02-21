@@ -16,6 +16,7 @@ const Remittance = () => {
   const [pay, setPay] = useState(0);
   const [bank, setBank] = useState("");
   const [date, setDate] = useState(new Date());
+  const [type, setType] = useState("");
 
   const [remitLog, setRemitLog] = useState([]);
   const [editDate, setEditDate] = useState("");
@@ -34,6 +35,7 @@ const Remittance = () => {
         date={date} setDate={setDate}
         paymentMode={paymentMode} setPaymentMode={setPaymentMode}
         efundDeduct={efundDeduct} setEfundDeduct={setEfundDeduct}
+        type={type} setType={setType}
          />
       <TablelistRemitLog 
         remitLog={remitLog} setRemitLog={setRemitLog}

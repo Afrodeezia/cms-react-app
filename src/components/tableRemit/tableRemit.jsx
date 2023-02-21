@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react'
 import { onSnapshot, query } from "firebase/firestore";
-import remitDataService, {remitCollectionRef} from '../../services/remit.services'
 import { commSellerCollectionRef } from '../../services/firebase.services';
 import './tableRemit.scss'
 

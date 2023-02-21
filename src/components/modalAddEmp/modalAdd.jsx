@@ -157,6 +157,18 @@ const ModalAdd = ({
         <div className='modalAdd-close' onClick={action}>
           </div>
           <div className='inputmodalAdd-container'>
+
+          <label className='inputmodalAdd'>Type:{" "}
+            <select value={selectSellerType} onChange={(e) => setSelectSellerType(e.target.value)}>
+              {sellerType.map((area) => (
+                <option key={area.id} value={area.id}>
+                    {area.type}
+                </option>
+              ))}
+            </select>
+          </label>
+          
+          
           <label className='inputmodalAdd'>Last Name:{" "}
               <input 
               onChange={(event) => {setLastName(event.target.value)}}
@@ -197,16 +209,6 @@ const ModalAdd = ({
                />    
           </label>
 
-          <label className='inputmodalAdd'>Type:{" "}
-            <select value={selectSellerType} onChange={(e) => setSelectSellerType(e.target.value)}>
-              {sellerType.map((area) => (
-                <option key={area.id} value={area.id}>
-                    {area.type}
-                </option>
-              ))}
-            </select>
-          </label>
-          
           <label className='inputmodalAdd'>Area:{" "}
             <select value={selectArea} onChange={(e) => setSelectArea(e.target.value)}>
               {area.map((area) => (
