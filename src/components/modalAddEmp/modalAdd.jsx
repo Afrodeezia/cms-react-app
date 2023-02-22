@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import commSellerDataService from '../../services/firebase.services'
 import areaDataService,
        {areaCollectionRef} from '../../services/area.services'
@@ -9,9 +9,10 @@ import sellerTypeDataService,
 import { onSnapshot, query,} from 'firebase/firestore'
 import './modalAdd.scss'
 
-import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
-import { async } from '@firebase/util'
+import  AddIBP from '../../components/addIBP/addIBP'
+import AddGT from '../addGT/addGT'
+
 
 
 const ModalAdd = ({
@@ -41,8 +42,18 @@ const ModalAdd = ({
               setSellerType,
               selectSellerType,
               setSelectSellerType            
-                      }) => {    
-                    
+                      }) => {  
+                        
+  const [ibpContentVisible, setIbpContentVisible] = useState(false);
+  const [gtContentVisible, setGtContentVisible] = useState(false);
+  
+  
+  const handleShowType = useCallback( async () => {
+    
+    selectSellerType === "IBP" ? setIbpContentVisible(true) : setGtContentVisible(true)
+    //selectSellerType.type !== "IBP" ? setGtContentVisible(true) : setIbpContentVisible(false)
+  }, [selectSellerType])
+                  
 
   const handleAdd = async (e) => {
     e.preventDefault()
@@ -145,7 +156,8 @@ const ModalAdd = ({
       handleAreaSnap();
       handleSupervisorSnap();
       handleSellerTypeSnap();
-  }, [handleAreaSnap, handleSupervisorSnap, handleSellerTypeSnap]);
+      handleShowType();
+  }, [handleAreaSnap, handleSupervisorSnap, handleSellerTypeSnap, handleShowType]);
     
   
 
@@ -169,65 +181,65 @@ const ModalAdd = ({
           </label>
           
           
-          <label className='inputmodalAdd'>Last Name:{" "}
-              <input 
-              onChange={(event) => {setLastName(event.target.value)}}
-              type="text"
-              size='12'
-               />    
-          </label>
-        <label className='inputmodalAdd'>First Name:{" "}
-            <input 
-              onChange={(event) => {setFirstName(event.target.value)}}
-              type="text"
-              size='12'
-               />    
-          </label>
+          {ibpContentVisible && <AddIBP 
+                                  toggle={toggle} 
+                                  action={action}
+                                  firstName={firstName}
+                                  lastName={lastName}
+                                  setFirstName={setFirstName}
+                                  setLastName={setLastName}
+                                  newEfund={newEfund}
+                                  outBalance={outBalance}
+                                  address={address}
+                                  setAddress={setAddress}
+                                  area={area}
+                                  setArea={setArea}
+                                  contact={contact}
+                                  setContact={setContact}
+                                  supervisor={supervisor}
+                                  setSupervisor={setSupervisor}
+                                  recStartDate={recStartDate}
+                                  setRecStartDate={setRecStartDate}
+                                  selectArea={selectArea}
+                                  setSelectArea={setSelectArea}
+                                  selectSupervisor={selectSupervisor}
+                                  setSelectSupervisor={setSelectSupervisor}
+                                  sellerType={sellerType}
+                                  setSellerType={setSellerType}
+                                  selectSellerType={selectSellerType}
+                                  setSelectSellerType={setSelectSellerType} 
+                                />
+          }
 
-          <label className='inputmodalAdd'>Birth Date:{" "}
-          <DatePicker 
-              selected={recStartDate}
-              onChange={(date) => setRecStartDate(date)}
-              dateFormat="MM/dd/yyyy" 
-              placeholderText='Enter Date'
-              /> 
-          </label>
-
-          <label className='inputmodalAdd'>Address:{" "}
-            <input 
-              onChange={(event) => {setAddress(event.target.value)}}
-              type="text"
-              size='12'
-               />    
-          </label>
-
-          <label className='inputmodalAdd'>Contact Number:{" "}
-            <input 
-              onChange={(event) => {setContact(event.target.value)}}
-              type="text"
-              size='12'
-               />    
-          </label>
-
-          <label className='inputmodalAdd'>Area:{" "}
-            <select value={selectArea} onChange={(e) => setSelectArea(e.target.value)}>
-              {area.map((area) => (
-                <option key={area.id} value={area.id}>
-                    {area.location}
-                </option>
-              ))}
-            </select>
-          </label>
-          
-          <label className='inputmodalAdd'>Supervisor:{" "}
-            <select value={selectSupervisor} onChange={(e) => setSelectSupervisor(e.target.value)}>
-                {supervisor.map((supervisor) => (
-                  <option key={supervisor.id} value={supervisor.id}>
-                      {`${supervisor.firstName} ${supervisor.lastName}`}
-                  </option>
-                ))}
-              </select>
-          </label>
+          {gtContentVisible && <AddGT 
+                                  toggle={toggle} 
+                                  action={action}
+                                  firstName={firstName}
+                                  lastName={lastName}
+                                  setFirstName={setFirstName}
+                                  setLastName={setLastName}
+                                  newEfund={newEfund}
+                                  outBalance={outBalance}
+                                  address={address}
+                                  setAddress={setAddress}
+                                  area={area}
+                                  setArea={setArea}
+                                  contact={contact}
+                                  setContact={setContact}
+                                  supervisor={supervisor}
+                                  setSupervisor={setSupervisor}
+                                  recStartDate={recStartDate}
+                                  setRecStartDate={setRecStartDate}
+                                  selectArea={selectArea}
+                                  setSelectArea={setSelectArea}
+                                  selectSupervisor={selectSupervisor}
+                                  setSelectSupervisor={setSelectSupervisor}
+                                  sellerType={sellerType}
+                                  setSellerType={setSellerType}
+                                  selectSellerType={selectSellerType}
+                                  setSelectSellerType={setSelectSellerType} 
+                                />
+          }
           
           </div>
           <div className='modalAdd-buttons'>
