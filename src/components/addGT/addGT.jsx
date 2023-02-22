@@ -29,7 +29,7 @@ const AddGT = ({toggle,
               }) => {
   return (
     <div>
-      <label className='inputmodalAdd'>Last Name:{" "}
+      <label className='inputmodalAdd'>Name:{" "}
               <input 
               onChange={(event) => {setLastName(event.target.value)}}
               type="text"

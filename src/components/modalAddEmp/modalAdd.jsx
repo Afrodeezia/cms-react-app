@@ -46,13 +46,6 @@ const ModalAdd = ({
                         
   const [ibpContentVisible, setIbpContentVisible] = useState(false);
   const [gtContentVisible, setGtContentVisible] = useState(false);
-  
-  
-  const handleShowType = useCallback( async () => {
-    
-    selectSellerType === "IBP" ? setIbpContentVisible(true) : setGtContentVisible(true)
-    //selectSellerType.type !== "IBP" ? setGtContentVisible(true) : setIbpContentVisible(false)
-  }, [selectSellerType])
                   
 
   const handleAdd = async (e) => {
@@ -60,12 +53,7 @@ const ModalAdd = ({
     if (firstName === "" || lastName === "") {
       alert("All fields are mandatory!");
       return;
-    }
-    /*
-    const newCommSeller ={firstName, lastName}
-    console.log(newCommSeller);
-    */
-    try {
+    } try {
       const areaSnap = await areaDataService.getAllArea(selectArea)
       const supervisorSnap = await supervisorDataService.getAllSupervisor(selectSupervisor)
       const sellerTypeSnap = await sellerTypeDataService.getAllSellerType(selectSellerType)
@@ -156,10 +144,13 @@ const ModalAdd = ({
       handleAreaSnap();
       handleSupervisorSnap();
       handleSellerTypeSnap();
-      handleShowType();
-  }, [handleAreaSnap, handleSupervisorSnap, handleSellerTypeSnap, handleShowType]);
+      
+  }, [handleAreaSnap, handleSupervisorSnap, handleSellerTypeSnap]);
     
-  
+  useEffect(() => {
+    selectSellerType === "IBP" ? setIbpContentVisible(true) : setIbpContentVisible(false)
+    selectSellerType === "GT" ? setGtContentVisible(true) : setGtContentVisible(false)
+  }, [selectSellerType])
 
   return (
     <div className={`modalAdd-container 
@@ -173,7 +164,7 @@ const ModalAdd = ({
           <label className='inputmodalAdd'>Type:{" "}
             <select value={selectSellerType} onChange={(e) => setSelectSellerType(e.target.value)}>
               {sellerType.map((area) => (
-                <option key={area.id} value={area.id}>
+                <option key={area.id} value={area.type} >
                     {area.type}
                 </option>
               ))}
