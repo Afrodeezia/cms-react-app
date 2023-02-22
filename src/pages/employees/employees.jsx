@@ -25,6 +25,7 @@ const Employees = () => {
   
   const [sellerType, setSellerType] = useState([])
   const [selectSellerType, setSelectSellerType] = useState("")
+  
   function openCreateModal() {
     setModalCreateState(!modalCreateState)
   }
