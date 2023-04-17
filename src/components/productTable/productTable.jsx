@@ -13,7 +13,7 @@ const data = useMemo(() => [...product], [product]);
 
 const columns = useMemo(() => [
   {Header: 'Product Name', accessor: 'productName'},
-  {Header: 'Quantity', accessor: 'productQty'},
+  {Header: 'Quantity', accessor: 'productQty', },
   {Header: 'Price', accessor: 'productVal'},
   {Header: 'Efund Value', accessor: 'efundVal'},
 ], []);

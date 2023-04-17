@@ -1,15 +1,14 @@
 import React, {useEffect, Fragment} from 'react'
+import './productTableData.scss'
 import { onSnapshot, query } from "firebase/firestore";
 import {  useTable,
           useFilters,
           useExpanded,
           usePagination, 
           useSortBy } from 'react-table'
-import productDataService, 
-        { productCollectionRef } from '../../services/products.services';
+import { productCollectionRef } from '../../services/products.services';
 
-import {  Filter, 
-          SelectColumnFilter, 
+import {  Filter,  
           DefaultColumnFilter } from "../../services/react-table.services";
 
 const ProductTableData = ({ data, 
@@ -24,7 +23,6 @@ const { getTableProps,
         page,
         visibleColumns,
         canPreviousPage,
-        rows,
         canNextPage,
         pageOptions,
         pageCount,
@@ -73,20 +71,14 @@ const generateSortingIndicator = (column) => {
   }, [setProduct])
   return (
     <div>
-      <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
+      <table className='productTable' {...getTableProps()}>
        <thead>
          {headerGroups.map(headerGroup => (
            <tr {...headerGroup.getHeaderGroupProps()}>
              {headerGroup.headers.map(column => (
-               <th
-                 {...column.getHeaderProps()}
-                 style={{
-                   borderBottom: 'solid 3px red',
-                   background: 'aliceblue',
-                   color: 'black',
-                   fontWeight: 'bold',
-                 }}
-               >
+               <th className='productTableHead'
+                 {...column.getHeaderProps()}>
+
                <div {...column.getSortByToggleProps()}>
                   {column.render('Header')}
                   {generateSortingIndicator(column)}
@@ -104,18 +96,13 @@ const generateSortingIndicator = (column) => {
            prepareRow(row)
            return (
             <Fragment key={row.getRowProps().key}>
-            <tr>
+            <tr className='productTableRow'>
                {row.cells.map((cell) => {
                 
                  return (
-                   <td
-                     {...cell.getCellProps()}
-                     style={{
-                       padding: '10px',
-                       border: 'solid 1px gray',
-                       background: 'papayawhip',
-                     }}
-                   >
+                   <td className='productTableData'
+                     {...cell.getCellProps()}>
+
                      {cell.render('Cell')}
                    </td>
                  );
@@ -134,13 +121,7 @@ const generateSortingIndicator = (column) => {
         </tbody>
       </table>
 
-      <div style={{ 
-                maxWidth: 1000, 
-                margin: "0 auto", 
-                textAlign: "center",
-                display: 'flex',
-                justifyContent: 'center' 
-                }}>
+      <div className='productTablePagi' >
           <div md={3}>
             <button 
               type='button'
@@ -158,13 +139,13 @@ const generateSortingIndicator = (column) => {
               {"<"}
             </button>
           </div>
-          <div md={2} style={{ marginTop: 7 }}>
+          <div className='pagiEle' md={2} >
             Page{" "}
             <strong>
               { pageIndex + 1 } of { pageOptions.length }
             </strong>
           </div>
-          <div md={2}>
+          <div className='pagiEle' md={2}>
             <input
               type='number'
               min={1}
@@ -174,7 +155,7 @@ const generateSortingIndicator = (column) => {
               onChange={ onChangeInInput }>
             </input>
           </div>
-          <div md={2}>
+          <div className='pagiEle' md={2}>
             <select
               value={pageSize}
               onChange={onChangeInSelect}

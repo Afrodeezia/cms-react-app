@@ -1,0 +1,47 @@
+.productTable {
+ 
+  
+  width: 70%;
+  margin: auto;
+  margin-top: 10px;
+  border-collapse: collapse;
+  text-align: left;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+.productTableHead {
+ 
+  background-color: #27ae60;
+  color: #ffffff;
+  padding: 10px;
+  font-weight: 900;
+}
+
+.productTableRow {
+  background-color: #f6f6f6;
+}
+
+.productTableRow:nth-of-type(odd) {
+  background-color: #e9e9e9;
+}
+
+.productTableData {
+  padding: 10px;
+  
+  
+  
+}
+
+.productTablePagi {
+  display: flex;
+  justify-content: center;
+  max-width: 1000;
+  margin: 10px auto;
+  text-align: center;
+}
+
+.pagiEle {
+  margin: 7px 3px 0 3px;
+}
+
