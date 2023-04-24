@@ -1,0 +1,40 @@
+.dispatching {
+  width: 70%;
+  margin: auto;
+  margin-top: 10px;
+  border-collapse: collapse;
+  text-align: left;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+.dispatchingTableHead {
+  background-color: #27ae60;
+  color: #ffffff;
+  padding: 10px;
+  font-weight: 900;
+}
+
+.dispatchingTableRow {
+  background-color: #f6f6f6;
+}
+
+.dispatchingTableRow:nth-of-type(odd) {
+  background-color: #e9e9e9;
+}
+
+.dispatchingTableData {
+  padding: 10px;
+}
+
+.dispatchingTablePagi {
+  display: flex;
+  justify-content: center;
+  max-width: 1000;
+  margin: 10px auto;
+  text-align: center;
+}
+
+.disPagi {
+  margin: 7px 3px 0 3px;
+}

@@ -10,6 +10,7 @@ import commSellerDataService,
    from '../../services/firebase.services'
 
 import { Filter, SelectColumnFilter, DefaultColumnFilter } from "../../services/react-table.services";
+import './TableComm.scss'
 
 const TableComm = ({data,
                     columns,
@@ -82,19 +83,14 @@ const TableComm = ({data,
   
   return (
     <div>
-        <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
+        <table className='employee' {...getTableProps()}>
        <thead>
          {headerGroups.map(headerGroup => (
            <tr {...headerGroup.getHeaderGroupProps()}>
              {headerGroup.headers.map(column => (
-               <th
+               <th className='employeeTableHead'
                  {...column.getHeaderProps()}
-                 style={{
-                   borderBottom: 'solid 3px red',
-                   background: 'aliceblue',
-                   color: 'black',
-                   fontWeight: 'bold',
-                 }}
+                
                >
                <div {...column.getSortByToggleProps()}>
                   {column.render('Header')}
@@ -113,7 +109,7 @@ const TableComm = ({data,
            prepareRow(row)
            return (
             <Fragment key={row.getRowProps().key}>
-            <tr>
+            <tr className='employeeTableRow'>
                {row.cells.map((cell) => {
                 if (cell.column.Header === "Action") {
                     return (
@@ -130,13 +126,9 @@ const TableComm = ({data,
                     );
                   }
                  return (
-                   <td
+                   <td className='employeeTableData'
                      {...cell.getCellProps()}
-                     style={{
-                       padding: '10px',
-                       border: 'solid 1px gray',
-                       background: 'papayawhip',
-                     }}
+                     
                    >
                      {cell.render('Cell')}
                    </td>
@@ -156,13 +148,7 @@ const TableComm = ({data,
         </tbody>
       </table>
 
-      <div style={{ 
-                maxWidth: 1000, 
-                margin: "0 auto", 
-                textAlign: "center",
-                display: 'flex',
-                justifyContent: 'center' 
-                }}>
+      <div className='employeeTablePagi' >
           <div md={3}>
             <button 
               type='button'
@@ -180,13 +166,13 @@ const TableComm = ({data,
               {"<"}
             </button>
           </div>
-          <div md={2} style={{ marginTop: 7 }}>
+          <div className='empPagi' md={2} style={{ marginTop: 7 }}>
             Page{" "}
             <strong>
               { pageIndex + 1 } of { pageOptions.length }
             </strong>
           </div>
-          <div md={2}>
+          <div className='empPagi' md={2}>
             <input
               type='number'
               min={1}
@@ -196,7 +182,7 @@ const TableComm = ({data,
               onChange={ onChangeInInput }>
             </input>
           </div>
-          <div md={2}>
+          <div className='empPagi' md={2}>
             <select
               value={pageSize}
               onChange={onChangeInSelect}

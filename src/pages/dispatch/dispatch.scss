@@ -1,12 +1,11 @@
 .dispatch {
-  margin: auto;
-  
-  
-  
+  display: flex;
+  flex-direction: column;
 }
 
 @media only screen and (min-width: 768px) {
   .dispatch {
     margin-left: 11em;
+    margin-right: 11em;
   }
 }

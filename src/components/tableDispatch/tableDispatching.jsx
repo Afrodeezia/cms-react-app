@@ -7,6 +7,7 @@ import {  useTable,
           useSortBy} from 'react-table'
 import { Filter, DefaultColumnFilter } from '../../services/react-table.services'
 import dispatchDataService, {dispatchCollectionRef} from '../../services/dispatch.services'
+import './tableDispatching.scss'
 
 
 const TableDispatching = ({data, 
@@ -76,20 +77,13 @@ const { getTableProps,
 
     return (
       <div>
-        <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
+        <table className='dispatching' {...getTableProps()}>
        <thead>
          {headerGroups.map(headerGroup => (
            <tr {...headerGroup.getHeaderGroupProps()}>
              {headerGroup.headers.map(column => (
-               <th
-                 {...column.getHeaderProps()}
-                 style={{
-                   borderBottom: 'solid 3px red',
-                   background: 'aliceblue',
-                   color: 'black',
-                   fontWeight: 'bold',
-                 }}
-               >
+               <th className='dispatchingTableHead'
+                 {...column.getHeaderProps()}>
                <div {...column.getSortByToggleProps()}>
                   {column.render('Header')}
                   {generateSortingIndicator(column)}
@@ -107,15 +101,11 @@ const { getTableProps,
            prepareRow(row)
            return (
             <Fragment key={row.getRowProps().key}>
-            <tr>
+            <tr className='dispatchingTableRow'>
                {row.cells.map((cell) => {
                 if (cell.column.Header === "Action") {
                     return (
                       <td {...cell.getCellProps()}>
-                        <button onClick={() => 
-                            open(cell.row.original.id)}>
-                          update
-                        </button>
                         <button onClick={() => 
                             deleteHandler(cell.row.original.id)}>
                           delete
@@ -124,14 +114,8 @@ const { getTableProps,
                     );
                   }
                  return (
-                   <td
-                     {...cell.getCellProps()}
-                     style={{
-                       padding: '10px',
-                       border: 'solid 1px gray',
-                       background: 'papayawhip',
-                     }}
-                   >
+                   <td className='dispatchingTableData'
+                     {...cell.getCellProps()}>
                      {cell.render('Cell')}
                    </td>
                  );
@@ -150,13 +134,7 @@ const { getTableProps,
         </tbody>
       </table>
 
-      <div style={{ 
-                maxWidth: 1000, 
-                margin: "0 auto", 
-                textAlign: "center",
-                display: 'flex',
-                justifyContent: 'center' 
-                }}>
+      <div className='dispatchingTablePagi'>
           <div md={3}>
             <button 
               type='button'
@@ -174,13 +152,13 @@ const { getTableProps,
               {"<"}
             </button>
           </div>
-          <div md={2} style={{ marginTop: 7 }}>
+          <div className='disPagi' md={2}>
             Page{" "}
             <strong>
               { pageIndex + 1 } of { pageOptions.length }
             </strong>
           </div>
-          <div md={2}>
+          <div className='disPagi' md={2}>
             <input
               type='number'
               min={1}
@@ -190,7 +168,7 @@ const { getTableProps,
               onChange={ onChangeInInput }>
             </input>
           </div>
-          <div md={2}>
+          <div className='disPagi' md={2}>
             <select
               value={pageSize}
               onChange={onChangeInSelect}

@@ -1,0 +1,15 @@
+.dispatchForm {
+  padding: .5em;
+  margin: 1em 0 1em 0;
+.dispatchFormContainer {
+  display: flex;
+  margin: 1em 0 .5em 0;
+  justify-content: center;
+  gap: 1.5em;
+
+  .dispatchDatePick {
+    display: flex;
+    
+  }
+}
+}

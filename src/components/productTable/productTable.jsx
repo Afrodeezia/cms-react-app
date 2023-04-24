@@ -3,11 +3,7 @@ import './productTable.scss'
 
 import ProductTableData from "../productTableData/productTableData";
 
-const ProductTable = ({ product, setProduct,
-                        productName, setProductName,
-                        productQty, setProductQty,
-                        productVal, setProductVal,
-                        efundVal, setEfundVal, }) => {
+const ProductTable = ({ product, setProduct }) => {
 
 const data = useMemo(() => [...product], [product]);
 

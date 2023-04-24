@@ -1,31 +1,18 @@
 import React, { useCallback, useEffect } from 'react'
-import commSellerDataService,
-        {commSellerCollectionRef} from '../../services/firebase.services'
-import productDataService,
-        {productCollectionRef} 
-        from '../../services/products.services';
-import dispatchDataService 
-        from '../../services/dispatch.services'
-import {onSnapshot,
-        query,
-        increment
-        } from 'firebase/firestore'
+import commSellerDataService, {commSellerCollectionRef} from '../../services/firebase.services'
+import productDataService, {productCollectionRef} from '../../services/products.services';
+import dispatchDataService from '../../services/dispatch.services'
+import {onSnapshot, query, increment} from 'firebase/firestore'
 import DatePicker from 'react-datepicker'
 import './dispatchForm.scss'
 
 const DispatchForm = ({
-                  seller,
-                  setSeller,
-                  product,
-                  setProduct,
-                  selectSeller, 
-                  setSelectSeller,
-                  selectProduct,
-                  setSelectProduct,
-                  dispatchQty, 
-                  setDispatchQty,
-                  recStartDate,
-                  setRecStartDate
+                  seller, setSeller,
+                  product, setProduct,
+                  selectSeller, setSelectSeller,
+                  selectProduct, setSelectProduct,
+                  dispatchQty, setDispatchQty,
+                  recStartDate, setRecStartDate
                       }) => {
 
   
@@ -106,9 +93,10 @@ const DispatchForm = ({
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form className='dispatchForm' onSubmit={handleSubmit}>
+        <div className='dispatchFormContainer'>
 
-        <label>Date:{" "}
+        <label className='dispatchDatePick'>Date:{" "}
           <DatePicker
             selected={recStartDate}
             onChange={(date) => setRecStartDate(date)} 
@@ -154,7 +142,7 @@ const DispatchForm = ({
         <button type='submit'>
           Enter
         </button>
-      
+        </div>
 
       </form>
     </div>
