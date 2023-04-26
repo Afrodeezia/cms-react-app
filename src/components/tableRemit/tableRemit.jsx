@@ -32,12 +32,13 @@ const firstPageRows = rows.slice(0, 10);
 
   return (
     <div>
-      <table {...getTableProps()}>
+      <table className='remitting' {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps(
+                <th className='remittingTableHead' 
+                {...column.getHeaderProps(
                     column.getSortByToggleProps())}>
                   {column.render("Header")}
                   <span>
@@ -56,12 +57,14 @@ const firstPageRows = rows.slice(0, 10);
           {firstPageRows.map((row) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
+              <tr className='remittingTableRow'  
+              {...row.getRowProps()}>
                 {row.cells.map((cell) => {
 
                   if (cell.column.Header === "Action") {
                     return (
-                      <td {...cell.getCellProps()}>
+                      <td className='remittingTableData' 
+                      {...cell.getCellProps()}>
                         <button onClick={() => 
                             open(cell.row.original.id)}>
                           Remit
@@ -83,7 +86,9 @@ const firstPageRows = rows.slice(0, 10);
           })}
         </tbody>
       </table>
-      <div>Showing the first 10 results of {rows.length} rows</div>
+      <div className='remittingFoot'>
+        Showing the first 10 results of {rows.length} rows
+        </div>
     </div>
   )
 }

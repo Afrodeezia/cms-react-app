@@ -23,7 +23,7 @@ const Remittance = () => {
   const [balance, setBalance] = useState(0);
 
   return (
-    <div className='receiving'>
+    <div className='remittance' >
       <TablelistRemit
         remit={remit} setRemit={setRemit}
         firstName={firstName} setFirstName={setFirstName}

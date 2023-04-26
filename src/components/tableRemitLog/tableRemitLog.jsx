@@ -67,19 +67,14 @@ const TableRemitLog = ({data, columns, setRemitLog, renderRowSubComponent}) => {
 
   return (
           <div>
-        <table {...getTableProps()} style={{ border: 'solid 1px blue' }}>
+        <table className='remitlog' {...getTableProps()}>
        <thead>
          {headerGroups.map(headerGroup => (
            <tr {...headerGroup.getHeaderGroupProps()}>
              {headerGroup.headers.map(column => (
-               <th
+               <th className='remitlogTableHead'
                  {...column.getHeaderProps()}
-                 style={{
-                   borderBottom: 'solid 3px red',
-                   background: 'aliceblue',
-                   color: 'black',
-                   fontWeight: 'bold',
-                 }}
+                 
                >
                <div {...column.getSortByToggleProps()}>
                   {column.render('Header')}
@@ -98,11 +93,12 @@ const TableRemitLog = ({data, columns, setRemitLog, renderRowSubComponent}) => {
            prepareRow(row)
            return (
             <Fragment key={row.getRowProps().key}>
-            <tr>
+            <tr className='remitlogTableRow'>
                {row.cells.map((cell) => {
                 if (cell.column.Header === "Action") {
                     return (
-                      <td {...cell.getCellProps()}>
+                      <td 
+                      {...cell.getCellProps()}>
                         <button >
                           update
                         </button>
@@ -113,13 +109,9 @@ const TableRemitLog = ({data, columns, setRemitLog, renderRowSubComponent}) => {
                     );
                   }
                  return (
-                   <td
+                   <td className='remitlogTableData'
                      {...cell.getCellProps()}
-                     style={{
-                       padding: '10px',
-                       border: 'solid 1px gray',
-                       background: 'papayawhip',
-                     }}
+                     
                    >
                      {cell.render('Cell')}
                    </td>
@@ -139,13 +131,7 @@ const TableRemitLog = ({data, columns, setRemitLog, renderRowSubComponent}) => {
         </tbody>
       </table>
 
-      <div style={{ 
-                maxWidth: 1000, 
-                margin: "0 auto", 
-                textAlign: "center",
-                display: 'flex',
-                justifyContent: 'center' 
-                }}>
+      <div className='remitlogTablePagi'>
           <div md={3}>
             <button 
               type='button'
@@ -163,13 +149,13 @@ const TableRemitLog = ({data, columns, setRemitLog, renderRowSubComponent}) => {
               {"<"}
             </button>
           </div>
-          <div md={2} style={{ marginTop: 7 }}>
+          <div className='remitlogPagi' md={2} >
             Page{" "}
             <strong>
               { pageIndex + 1 } of { pageOptions.length }
             </strong>
           </div>
-          <div md={2}>
+          <div className='remitlogPagi' md={2}>
             <input
               type='number'
               min={1}
@@ -179,7 +165,7 @@ const TableRemitLog = ({data, columns, setRemitLog, renderRowSubComponent}) => {
               onChange={ onChangeInInput }>
             </input>
           </div>
-          <div md={2}>
+          <div className='remitlogPagi' md={2}>
             <select
               value={pageSize}
               onChange={onChangeInSelect}

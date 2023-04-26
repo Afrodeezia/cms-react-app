@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useAsyncDebounce } from 'react-table'
+import './filterRemit.scss'
 
 const FilterRemit = ({
             preGlobalFilteredRows,
@@ -14,10 +15,10 @@ const FilterRemit = ({
     }, 200)
 
   return (
-    <div>
-      <span>
+    <div className='FilterRemitContainer'>
+      <span className='RemitFilter'>
         Search:{' '}
-        <input 
+        <input  
           value={value || ""}
           onChange={e => {
               setValue(e.target.value);
